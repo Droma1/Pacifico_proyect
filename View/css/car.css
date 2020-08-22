@@ -1,0 +1,23 @@
+.window_car{
+    position: absolute;
+    top: 40px;
+    z-index: 100;
+    width: 250px;
+    max-height: 350px;
+    right: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}.window_car>.card{
+    height: 100%;
+}
+.window_car>.card>.card-body,.list-group-item{
+    padding: 5px;
+}
+.window_car>.card>.card-body>.list-group>.list-group-item>.card-body{
+    padding: 0px;
+}
+.window_car>.card>.card-body>.list-group>.list-group-item>.card-body>img{
+    position: relative;
+    max-height: 100px;
+    transform: translateX(50%);
+}
