@@ -12,7 +12,7 @@
 <?php
 
     $pass = password_hash("admin",PASSWORD_DEFAULT,['cost'=>12]);
-    echo $pass;
+    echo $pass; #hello
     echo "<br>";
     $pass1 = password_verify("admin",$pass);
     var_dump($pass1);
