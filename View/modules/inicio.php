@@ -31,6 +31,9 @@
 	</div>
 
 </section>
+<?php require_once "./Controller/listarProductoController.php";
+	$categorias = new productoController_l();
+?>
 <div class="content bar_inf">
 		<div class="container">
 			<div class="row bar_nav">
@@ -40,11 +43,14 @@
 					</div>
 					<div class="items-category">
 						<ul class="list-group" style="text-align: left;">
-						  <li class="list-group-item"><a href="#">Cras justo odio</a></li>
-						  <li class="list-group-item"><a href="#">Dapibus ac facilisis in</a></li>
-						  <li class="list-group-item"><a href="#">Morbi leo risus</a></li>
-						  <li class="list-group-item"><a href="#">Porta ac consectetur ac</a></li>
-						  <li class="list-group-item"><a href="#">Vestibulum at eros</a></li>
+							<?php
+								$categorias_ = $categorias->listar_categoria();
+								foreach($categorias_ as $dato_c => $value){
+									#$dato_ = array();
+									#$dato_ = $dato_c;
+									echo "<li class='list-group-item'><a href='#'>$value[0]</a></li>";
+								}
+							?>
 						</ul>
 					</div>
 				</div>
