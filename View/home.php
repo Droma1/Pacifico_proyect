@@ -4,6 +4,7 @@
 	<title><?php echo COMPANY; ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<?php include "./View/modules/scripts.php"; ?>
 </head>
 <body>
 	<?php  
@@ -77,6 +78,6 @@
 	<?php endif; ?>
 
 	<!--===== Scripts -->
-	<?php include "./View/modules/scripts.php"; ?>
+	
 </body>
 </html>
