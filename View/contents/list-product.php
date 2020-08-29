@@ -1,33 +1,36 @@
 <?php
 require_once "./Controller/listarProductoController.php";
 $product = new productoController_l();
-$l_producto = $product->listar_producto();
+$categorias_p = $product->listar_categoria();
 
-foreach($l_producto as $productos => $x_categorie){
-	echo "<br>";
-	echo $x_categorie;
-	echo "<br>";
-}
- for($x = 0; $x<3;$x++){ ?>
+//echo "como es?";
+foreach($categorias_p as $categorias => $x_categorie){
+	$l_producto = $product->listar_producto($x_categorie[1]);
+	//echo "<br>";
+	//echo var_dump($x_categorie);
+	//echo "<br>";
+	$contador = 0;
+ ?>
 	<br>
 <section class="container" style="border: 1px solid #ffad3b;">
 	<br>
-	<h5>category <?php echo $x; ?></h5>
+	<h5><?php echo $x_categorie[0]; ?></h5>
 	<div class="row row-cols-1 row-cols-md-4">
-	<?php for($i = 0; $i<4; $i++){?>
+	
+	<?php ;while(($producto = $l_producto->fetch()) && $contador<=3){ $contador++;?>
 	  <div class="col mb-4">
 	    <div class="card h-100 rounded-0">
 	      <img src="<?php echo SERVERURL; ?>/View/img/pd2.jpg" class="card-img-top" alt="...">
 	      <div class="card-body">
 	        <a href="producto">
-	        	<h5 class="card-title">Yogurt Gloria</h5>
+	        	<h5 class="card-title"><?php echo $producto[5];?></h5>
 	        </a>
 	        <div class="card-text">
-	        	<p>yogurt apropiado para las dietas y la salud</p>
+	        	<p><?php echo $producto[6];?></p>
 
 	        	<span class="row">
 	        		<button class="btn btn-warning"><i class="icon-basket"></i></button> 
-	        		<p class="text-muted" style="margin-left: 20px; margin-top: 10px; margin-bottom: 0px;">S/. 5.00</p>
+	        		<p class="text-muted" style="margin-left: 20px; margin-top: 10px; margin-bottom: 0px;">S/ <?php echo $producto[7];?></p>
 	        	</span>
 	        </div>
 	      </div>
