@@ -11,10 +11,14 @@
             return $main;
         }
         public function listar_producto($codigo_p){
-            $consulta = "select * from productos_index where cod_categoria ='".$codigo_p."';";
+            $consulta = "select * from productos_index where cod_categoria ='".$codigo_p."' and estado_venta = 'VIGENTE';";
             $main = mainModel::consulta_simple($consulta);
             
             return $main;   
+        }
+        public function promociones(){
+            $promotions = mainModel::consulta_simple("select * from promocion_producto;");
+            return $promotions;
         }
     }
 ?>

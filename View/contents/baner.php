@@ -3,7 +3,7 @@
 		<div class="col-xl-3 col-lg-3"></div>
 		<div class="col-xl-9 col-lg-9">
 			<div id="baner" class="carousel slide" data-ride="carousel">
-			  <div class="carousel-inner">
+			  <div class="carousel-inner" style="max-height:350px;">
 			    <div class="carousel-item active" data-interval="1000">
 			      <img src="<?php echo SERVERURL; ?>View/img/s1.jpg" class="d-block w-100" alt="...">
 			    </div>

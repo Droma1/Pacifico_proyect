@@ -1,5 +1,5 @@
 <?php
 	const SERVERURL="http://localhost/Pacifico/";
 	const COMPANY="Pacifico Supermercados";
-	date_default_timezone_set ("America/El_Salvador");
+	date_default_timezone_set ("UTC");
 ?>
