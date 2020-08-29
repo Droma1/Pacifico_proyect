@@ -1,4 +1,14 @@
-<?php for($x = 0; $x<3;$x++){ ?>
+<?php
+require_once "./Controller/listarProductoController.php";
+$product = new productoController_l();
+$l_producto = $product->listar_producto();
+
+foreach($l_producto as $productos => $x_categorie){
+	echo "<br>";
+	echo $x_categorie;
+	echo "<br>";
+}
+ for($x = 0; $x<3;$x++){ ?>
 	<br>
 <section class="container" style="border: 1px solid #ffad3b;">
 	<br>

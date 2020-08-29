@@ -10,5 +10,10 @@
             
             return $main;
         }
+        public function listar_producto(){
+            $main = mainModel::consulta_simple("select * from producto_index;");
+            
+            return $main;   
+        }
     }
 ?>
