@@ -20,5 +20,9 @@
             $promotions = mainModel::consulta_simple("select * from promocion_producto;");
             return $promotions;
         }
+        public function producto_view($cod_producto){
+            $producto_complete = mainModel::consulta_simple("select * from producto_view where cod_producto = '".$cod_producto."';");
+            return $producto_complete;
+        }
     }
 ?>

@@ -1,7 +1,7 @@
 <?php 
 	class viewModel{
 		protected function view_Model($vistas){
-			$listaBlanca=["home","clientes","admin","productadmi","productventa","almacen","repartidores","administrativo"];
+			$listaBlanca=["home","clientes","admin","search","productadmi","productventa","almacen","repartidores","administrativo"];
 			$listaCliente=[];
 			$listaAdministrador=[];
 			$listaAlmacen=[];
@@ -12,6 +12,8 @@
 				}else{
 					$contenido="home";
 				}
+			}elseif($vistas == "search"){
+				$contenido = "search";
 			}elseif($vistas=="login"){
 				$contenido="login";
 			}elseif($vistas=="index"){

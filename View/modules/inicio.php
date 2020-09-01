@@ -56,9 +56,9 @@
 				</div>
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 col-sp-12 col-search">
 					<div class="search">
-						<form>
+						<form action="search" method="post">
 							<div class="input-group md-form form-sm form-2 pl-0">
-					            <input class="form-control input-search" type="text" placeholder="Buscar">
+					            <input class="form-control input-search" name="search" type="text" placeholder="Buscar">
 					            <div class="input-group-append">
 					                <button class="input-group-text btn-search"><i class="icon-search"></i></button>
 					            </div>

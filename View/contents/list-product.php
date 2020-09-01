@@ -22,9 +22,12 @@ foreach($categorias_p as $categorias => $x_categorie){
 	    <div class="card h-100 rounded-0">
 	      <img src="<?php echo SERVERURL; ?>/View/img/pd2.jpg" class="card-img-top" alt="...">
 	      <div class="card-body">
-	        <a href="producto">
-	        	<h5 class="card-title"><?php echo $producto[5];?></h5>
-	        </a>
+		  		<form action="producto" method="post">
+					<button class="text-title title_promotion" name="producto" id="producto" value="<?php echo $producto[2];?>">
+						<h5 class="card-title"><?php echo $producto[5]; ?></h5>
+					</button>
+				</form>
+	        
 	        <div class="card-text">
 	        	<p><?php echo $producto[6];?></p>
 

@@ -63,3 +63,9 @@
     margin-left : 0px;
     background-color: #af7118;
 }
+.title_promotion{
+    position: relative;
+    width: 100%;
+    display: contents;
+    overflow: hidden;
+}

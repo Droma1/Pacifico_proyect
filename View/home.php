@@ -15,9 +15,9 @@
 
 		$vt = new viewController();
 		$vistasR=$vt->view_Controller();
-		#echo $vistasR;
+		echo $vistasR;
 
-		if($vistasR=="home" || $vistasR == "404" || $vistasR == "login" || $vistasR == "promotion" || $vistasR == "producto" || $vistasR == "RegistroCliente"):
+		if($vistasR=="home" || $vistasR == "404" || $vistasR == "login" || $vistasR == "promotion" || $vistasR == "producto" || $vistasR == "RegistroCliente" || $vistasR == "search"):
 
 			switch($vistasR){
 				case 'home':
@@ -42,6 +42,10 @@
 				case "RegistroCliente":
 						include "./View/modules/inicio.php";
 						include "./View/contents/RegistroCliente-view.php";
+					break;
+				case "search":
+						include "./View/modules/inicio.php";
+						include "./View/contents/search-view.php";
 					break;
 				default:
 				include "./View/contents/404-view.php";

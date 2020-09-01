@@ -16,16 +16,24 @@ $contador = 0;
 				$contador++;
 		?>
 	  <div class="col mb-4">
-	    <div class="card h-100 rounded-0">
-	      <img src="<?php echo SERVERURL; ?>/View/img/pd2.jpg" class="card-img-top" alt="...">
-	      <div class="card-body">
-	        <a href="producto">
-	        	<h5 class="card-title"><?php echo $promo_p[0]; ?><span class="badge badge-danger float-right" style="border-radius: 0px; font-size: 12px;">  %<?php echo ($promo_p[2])*100; ?></span></h5>
-	        </a>
-	        <p class="card-text">
-
-	        	<p class="text-muted"> expira en : <?php echo date("dS H:i",$tiempo); ?></p>
-	        </p>
+	    <div class="card h-100  bg-danger text-white rounded-0">
+	      <img src="<?php echo SERVERURL; ?>/View/img/pd2.jpg" class="card-img rounded-0" alt="...">
+		  
+	      <div class="card-img-overlay rounded-0" >
+			
+	        
+	        <div class="card-text" style="position: absolute;
+					background-color: rgb(255 98 98 / 52%);
+					width: 100%;
+					height: 64px;
+					text-align: center;
+					left: 0px;
+					top: 60%;">
+				<form action="producto" method="post">
+					<button class="text-title title_promotion" name="producto" id="producto" value="<?php echo $promo_p[3];?>"><h5 class="card-title"><?php echo $promo_p[0]; ?><span class="badge badge-danger float-right" style="border-radius: 0px; font-size: 12px;">  %<?php echo ($promo_p[2])*100; ?></span></h5></button>
+				</form>
+	        	<p class="text-withe"> expira en : <?php echo date("dS H:i",$tiempo); ?></p>
+	        </div>
 	      </div>
 	    </div>
 	  </div>

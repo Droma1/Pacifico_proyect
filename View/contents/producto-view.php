@@ -1,3 +1,11 @@
+<?php if(isset($_POST['producto'])){ 
+		require_once "./Controller/listarProductoController.php";
+		$product = new productoController_l();
+		$producto_view = $product->producto_view($_POST['producto']);
+		$producto = array();
+		$producto = $producto_view->fetch();
+		//echo var_dump($producto);
+?>
 <section class="container">
 	<br>
 	<div class="row">
@@ -19,20 +27,28 @@
 			</div>
 		</div>
 		<div class="col-md-6 col-lg-6 col-xl-6">
-			<h3>Yogurt Gloria</h3>
+			<h3><?php echo $producto[5];?></h3>
 			<form>
-				<p class="text-muted">Categoria: Lacteos</p>
-				<h5>S/. 5.00</h5>
+				<p class="text-muted">Categoria: <?php echo $producto[1];?></p>
+				<p class="text-muted">Código del Producto: <?php echo $producto[2];?></p>
+				<h5><?php $tiempo =  strtotime($producto[16])-strtotime(date('Y-m-d H:i:s')); if($producto[14]>0 && $tiempo > 0){echo ($producto[9]-(($producto[9]/100)*($producto[14]*100)));}else{echo $producto[9];}?></h5>
 				<p>Incluye delivery</p>
-				<p>Descripcion: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus vitae at modi architecto fuga, provident harum neque porro praesentium veritatis temporibus iste, sed nesciunt velit blanditiis minus voluptas impedit. Aliquid.</p>
-				<p>Contenido: 1L.</p>
-				<p>Sabor: Fresa</p>
+				<p>Descripcion: <?php echo $producto[6];?></p>
+				<?php if($producto[7] != 0 && $producto[8] != 0){echo "<p>Dimenciones: ".$producto[7]." x ".$producto[8]."</p>";} ?>
+				<p>Color: <?php echo $producto[10]; ?></p>
 				<p class="text-muted">Estado: Disponible</p>
-				<p class="text-muted">Disponibilidad: En stock</p>
-
-				<div class="form-group">
-					<input type="number" class="form-control rounded-0" value="1">
-				</div>
+				<p class="text-muted">Disponibilidad: <?php echo $producto[4] ?></p>
+				<label for="">Cantidad Disponible del producto: <?php echo $producto[3];?></label>
+				<br>
+				<label for="" style="display:inline-flex;"> <p style="margin-top:5px;margin-right:15px;">cantidad:  </p>
+					<select name="cantidad" class="form-control" id="">
+					<?php for($cont = 1; $cont <= $producto[3]; $cont++){echo "<option value='".$cont."'>".$cont."</option>";} ?>
+					</select>
+					<!--<div class="form-group">
+					<p>cantidad a comprar:</p>
+						<input type="number" class="form-control rounded-0" value="1">
+					</div>-->
+				</label>
 				<div class="form-group">
 					<input type="submit" value="Agregar al carrito" class="btn btn-outline-danger rounded-0">
 				</div>
@@ -40,3 +56,4 @@
 		</div>
 	</div>
 </section>
+<?php }else{ header("location:".SERVERURL);}?>
