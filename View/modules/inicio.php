@@ -58,7 +58,7 @@
 					<div class="search">
 						<form action="search" method="post">
 							<div class="input-group md-form form-sm form-2 pl-0">
-					            <input class="form-control input-search" name="search" type="text" placeholder="Buscar">
+					            <input type="text" class="form-control input-search" name="search"  placeholder="Buscar">
 					            <div class="input-group-append">
 					                <button class="input-group-text btn-search"><i class="icon-search"></i></button>
 					            </div>

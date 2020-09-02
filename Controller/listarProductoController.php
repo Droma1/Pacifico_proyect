@@ -24,5 +24,9 @@
             $producto_complete = mainModel::consulta_simple("select * from producto_view where cod_producto = '".$cod_producto."';");
             return $producto_complete;
         }
+        public function producto_search($search){
+            $producto_search = mainModel::consulta_simple("select * from productos_search where cod_categoria like '%".$search."%' or cod_producto like '%".$search."%' or nombre_cat_producto like '%".$search."%' or nombre_producto like '%".$search."%';");
+            return $producto_search;
+        }
     }
 ?>

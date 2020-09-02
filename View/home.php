@@ -15,7 +15,7 @@
 
 		$vt = new viewController();
 		$vistasR=$vt->view_Controller();
-		echo $vistasR;
+		//echo $vistasR;
 
 		if($vistasR=="home" || $vistasR == "404" || $vistasR == "login" || $vistasR == "promotion" || $vistasR == "producto" || $vistasR == "RegistroCliente" || $vistasR == "search"):
 

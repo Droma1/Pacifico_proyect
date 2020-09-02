@@ -31,7 +31,7 @@
 			<form>
 				<p class="text-muted">Categoria: <?php echo $producto[1];?></p>
 				<p class="text-muted">Código del Producto: <?php echo $producto[2];?></p>
-				<h5><?php $tiempo =  strtotime($producto[16])-strtotime(date('Y-m-d H:i:s')); if($producto[14]>0 && $tiempo > 0){echo ($producto[9]-(($producto[9]/100)*($producto[14]*100)));}else{echo $producto[9];}?></h5>
+				<h5><?php $tiempo =  strtotime($producto[16])-strtotime(date('Y-m-d H:i:s')); if($producto[14]>0 && $tiempo > 0){echo "Precio: S/. ".($producto[9]-(($producto[9]/100)*($producto[14]*100)));}else{echo "Precio: S/.".$producto[9];}?></h5>
 				<p>Incluye delivery</p>
 				<p>Descripcion: <?php echo $producto[6];?></p>
 				<?php if($producto[7] != 0 && $producto[8] != 0){echo "<p>Dimenciones: ".$producto[7]." x ".$producto[8]."</p>";} ?>
