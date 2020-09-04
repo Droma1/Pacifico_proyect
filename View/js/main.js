@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $(".content-car").hide();
 		$('.categories').click(function(){
             $('.menos').css("transform","rotate(90deg)");
 			if($('.items-category').css("display") == "none"){
@@ -119,6 +120,14 @@ $('.cat_existente').click(function(){
             
             return false;
         });*/
+    });
+
+    $(".close-car").click(function(){
+        $(".content-car").hide();
+    });
+    $("#car-show").click(function(){
+        $(".content-car").show();
+        $("#carrito").show(200);
     });
 
 

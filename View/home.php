@@ -24,7 +24,13 @@
 						include "./View/modules/inicio.php";
 						include "View/contents/baner.php";
 						include "View/contents/promotion.php";
+						?>
+						<section class="container-fluid" id="lista-productos">
+						<?php
 						include "View/contents/list-product.php";
+						?>
+						</section>
+						<?php
 					break;
 				case 'login':
 						include "./View/modules/inicio.php";
@@ -85,4 +91,7 @@
 	<!--===== Scripts -->
 	
 </body>
+
 </html>
+<script src="<?php echo SERVERURL; ?>View/js/carrito.js"></script>
+<script src="<?php echo SERVERURL; ?>View/js/pedido.js"></script>
