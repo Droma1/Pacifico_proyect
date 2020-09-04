@@ -16,7 +16,7 @@ class Carrito{
             imagen : producto.querySelector('img').src,
             titulo : producto.querySelector('.card-title').textContent,
             precio : producto.querySelector('.text-muted span').textContent,
-            id : producto.querySelector('a').getAttribute('data-id'),
+            id : producto.querySelector('.title_promotion').getAttribute('value'),
             cantidad : 1
         }
         let productosLS;
@@ -48,7 +48,7 @@ class Carrito{
         row.innerHTML = `
             <th scope="row"><img src="${producto.imagen}" width=100></th>
             <td><p>${producto.titulo}</p></td>
-            <td><p>S/. ${producto.precio}</p></td>
+            <td><p>S/. ${producto.precio * producto.cantidad}</p></td>
             <td><p>Cantidad: ${producto.cantidad}</p></td>
             <td><a href="" class="borrar-producto icon-cancel-circled" data-id="${producto.id}"></a></td>
 
@@ -118,7 +118,7 @@ class Carrito{
             row.innerHTML = `
                 <th scope="row"><img src="${producto.imagen}" width=100></th>
                 <td><p>${producto.titulo}</p></td>
-                <td><p>S/. ${producto.precio}</p></td>
+                <td><p>S/. ${(producto.precio * producto.cantidad).toFixed(2)}</p></td>
                 <td><p>Cantidad: ${producto.cantidad}</p></td>
                 <td><a href="" class="borrar-producto icon-cancel-circled"" data-id="${producto.id}"></a></td>
             `;

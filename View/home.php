@@ -37,7 +37,13 @@
 						
 					break;
 				case 'promotion':
+						?>
+						<section class="container-fluid" id="lista-productos">
+						<?php
 						include "./View/contents/promotion-view.php";
+						?>
+						</section>
+						<?php
 					break;
 				case 'producto':
 						include "./View/contents/producto-view.php";

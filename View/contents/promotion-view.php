@@ -23,8 +23,8 @@ $lista_promo = $promotion->promociones();
 
 	        	<p class="text-muted">expire: <?php echo date("dS H:i",$tiempo); ?></p>
 	        	<span class="row">
-	        		<button class="btn btn-outline-warning rounded-0"><i class="icon-basket"></i></button> 
-	        		<p class="text-muted" style="margin-left: 20px; margin-top: 10px; margin-bottom: 0px;"><strong>S/. <?php $dato = $promo_p[6]-(($promo_p[6]/100)*($promo_p[2]*100)); echo $dato; ?></strong>  antes: <s style="font-size: 12px;">s/. <?php echo $promo_p[6]; ?></s></p>
+	        		<a class="agregar-carrito btn btn-outline-warning rounded-0 icon-basket"></a> 
+	        		<p class="text-muted" style="margin-left: 20px; margin-top: 10px; margin-bottom: 0px;"><strong>S/. <span><?php $dato = $promo_p[6]-(($promo_p[6]/100)*($promo_p[2]*100)); echo $dato; ?></span></strong>  antes: <s style="font-size: 12px;">s/. <?php echo $promo_p[6]; ?></s></p>
 	        	</span>
 	        </p>
 	      </div>
