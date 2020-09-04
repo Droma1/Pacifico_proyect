@@ -28,7 +28,7 @@
 		</div>
 		<div class="col-md-6 col-lg-6 col-xl-6">
 			<h3><?php echo $producto[5];?></h3>
-			<!--<form>
+			<!--<form>-->
 				<p class="text-muted">Categoria: <?php echo $producto[1];?></p>
 				<p class="text-muted">Código del Producto: <?php echo $producto[2];?></p>
 				<h5><?php $tiempo =  strtotime($producto[16])-strtotime(date('Y-m-d H:i:s')); if($producto[14]>0 && $tiempo > 0){echo "Precio: S/. ".($producto[9]-(($producto[9]/100)*($producto[14]*100)));}else{echo "Precio: S/.".$producto[9];}?></h5>

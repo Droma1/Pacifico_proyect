@@ -2,7 +2,7 @@
 class Carrito{
     //add producto car
     comprarProducto(e){
-        e.preventDefault();
+        //e.preventDefault();
         if(e.target.classList.contains('agregar-carrito')){
             //console.log(e.target.parentElement);
             const producto = e.target.parentElement.parentElement.parentElement.parentElement;

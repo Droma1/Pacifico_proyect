@@ -36,12 +36,6 @@
 
 					<span class="row">
 						<a class="agregar-carrito btn btn-warning icon-basket" data-id="<?php echo $producto[0]."-".$contador;?>">
-							<!--<i class="icon-basket"></i>-->
-							<div style="display:none;">
-								<p class="title_p"><?php echo $producto[5]; ?></p>
-								<p class="cod_p"><?php echo $producto[2];?></p>
-								<p class="precio_p"><?php echo $producto[7];?></p>
-							</div>
 						</a> 
 						<p class="text-muted" style="margin-left: 20px; margin-top: 10px; margin-bottom: 0px;">S/. <span><?php echo $producto[7];?></span> </p>
 					</span>

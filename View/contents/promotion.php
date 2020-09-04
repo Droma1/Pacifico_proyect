@@ -30,7 +30,7 @@ $contador = 0;
 					left: 0px;
 					top: 60%;">
 				<form action="producto" method="post">
-					<button class="text-title title_promotion" name="producto" id="producto" value="<?php echo $promo_p[3];?>"><h5 class="card-title"><?php echo $promo_p[0]; ?><span class="badge badge-danger float-right" style="border-radius: 0px; font-size: 12px;">  %<?php echo ($promo_p[2])*100; ?></span></h5></button>
+					<button class="text-title title_promotion" name="producto" value="<?php echo $promo_p[3];?>"><h5 class="card-title"><?php echo $promo_p[0]; ?><span class="badge badge-danger float-right" style="border-radius: 0px; font-size: 12px;">  %<?php echo ($promo_p[2])*100; ?></span></h5></button>
 				</form>
 	        	<p class="text-withe"> expira en : <?php echo date("dS H:i",$tiempo); ?></p>
 	        </div>
