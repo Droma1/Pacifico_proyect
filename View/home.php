@@ -18,10 +18,10 @@
 		//echo $vistasR;
 
 		if($vistasR=="home" || $vistasR == "404" || $vistasR == "login" || $vistasR == "promotion" || $vistasR == "producto" || $vistasR == "RegistroCliente" || $vistasR == "search"):
-
+				include "./View/modules/inicio.php";
 			switch($vistasR){
 				case 'home':
-						include "./View/modules/inicio.php";
+						
 						include "View/contents/baner.php";
 						include "View/contents/promotion.php";
 						?>
@@ -33,24 +33,19 @@
 						<?php
 					break;
 				case 'login':
-						include "./View/modules/inicio.php";
 						include "View/contents/login-view.php";
 						
 					break;
 				case 'promotion':
-						include "./View/modules/inicio.php";
 						include "./View/contents/promotion-view.php";
 					break;
 				case 'producto':
-						include "./View/modules/inicio.php";
 						include "./View/contents/producto-view.php";
 					break;
 				case "RegistroCliente":
-						include "./View/modules/inicio.php";
 						include "./View/contents/RegistroCliente-view.php";
 					break;
 				case "search":
-						include "./View/modules/inicio.php";
 						include "./View/contents/search-view.php";
 					break;
 				default:

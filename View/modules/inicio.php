@@ -20,10 +20,8 @@
 							<li class="nav-item"><a  class="nav-link" id="car-show">
 								<strong>
 									<i class="icon-basket"></i>
-									<span class="badge badge-warning">0</span>
 								</strong></a>
 							</li>
-							<li class="nav-item"><a class="nav-link">$/. 0.00</a></li>
 						</div>
 				</div>
 			</div>
@@ -80,47 +78,28 @@
 		<div class="shadow-lg card">
 			<div class="card-body">
 				<div class="alert alert-light alert-dismissible fade show" id="carrito" role="alert">
-					<ul class="list-group list-group-flush" id="lista-carrito">
-						<li class="list-group-item" id="body-carrito">
-							<div class="col-12">
-								<div class="row">
-									<div class="col-md-4">
-										<img src="<?php echo SERVERURL; ?>View/img/pd2.jpg" alt="" style="max-height:80px;">
-									</div>
-									<div class="col-md-8">
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<h5>Yogurt Gloria 1L</h5>
-													<label for="">Precio: S/. 5.00</label>
-													<br>
-													<label for="">Descuento: 7%</label>
-												</div>
-											</div>
-											<div class="col-md-6">
-											
-												<div class="form-group">
-													<label for="">Cantidad: </label>
-													<label>
-														<select name="" id="" class="form-control-sm">
-															<option value="1">1</option>
-															<option value="2">2</option>
-															<option value="3">3</option>
-														</select>
-													</label>
-													<input type="submit" value="X" class="btn btn-outline-danger btn-sm float-right">
-												</div>
-													
+						<div id="carrito" style="overflow:auto;">
+                                    <table id="lista-carrito" class="table">
+										
+                                        <tbody></tbody>
+                                    </table>
+
+                                <div class="col-12">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Carrito</a>
 											</div>
 										</div>
-										
+										<br>
+										<div class="col-md-6">
+											<div class="form-group">
+												<a href="#" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Compra</a>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-						</li>
-						<li class="list-group-item text-center"><label for=""><strong>No hay productos </strong> seleccione productos para añadir a su carrito</label></li>
-						<li class="list-group-item"><label for="" class="float-right">Total:<strong>S/. 4.90</strong></label></li>
-					</ul>
+                        </div>
 
 					<button type="button" class="close close-car">
 						<span aria-hidden="true">&times;</span>

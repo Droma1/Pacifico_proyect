@@ -16,9 +16,9 @@ $lista_promo = $promotion->promociones();
 	    <div class="card h-100 rounded-0">
 	      <img src="<?php echo SERVERURL; ?>/View/img/pd2.jpg" class="card-img-top" alt="...">
 	      <div class="card-body">
-	        <a href="producto">
-	        	<h5 class="card-title"><?php echo $promo_p[0]; ?>  <span class="badge badge-danger" style="border-radius: 0px; font-size: 12px;">-<?php echo $promo_p[2]*100; ?>%</span></h5>
-	        </a>
+		  <form action="producto" method="post">
+					<button class="text-title title_promotion" name="producto" id="producto" value="<?php echo $promo_p[3];?>"><h5 class="card-title"><?php echo $promo_p[0]; ?><span class="badge badge-danger float-right" style="border-radius: 0px; font-size: 12px;">  %<?php echo ($promo_p[2])*100; ?></span></h5></button>
+				</form>
 	        <p class="card-text">
 
 	        	<p class="text-muted">expire: <?php echo date("dS H:i",$tiempo); ?></p>

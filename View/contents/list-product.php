@@ -43,7 +43,7 @@
 								<p class="precio_p"><?php echo $producto[7];?></p>
 							</div>
 						</a> 
-						<p class="text-muted" style="margin-left: 20px; margin-top: 10px; margin-bottom: 0px;">S/ <?php echo $producto[7];?></p>
+						<p class="text-muted" style="margin-left: 20px; margin-top: 10px; margin-bottom: 0px;">S/. <span><?php echo $producto[7];?></span> </p>
 					</span>
 				</div>
 			</div>
