@@ -2,8 +2,24 @@
     require_once "./Controller/Cliente_Controller.php";
     $perfil = new clientController();
     $datos = $perfil->perfil_cliente($_SESSION['tipo_user']);
+    $contador = $perfil->contador_compras($_SESSION['tipo_user']);
+    $recargas = $perfil->contador_recargas($_SESSION['tipo_user']);
 
     $dato = (array) $datos->fetch();
+    if($contador->RowCount() > 0){
+        $cont = (array) $contador->fetch();
+    }else{
+        $cont = array(0=>"0");
+        //$cont[0] = "0";
+    }
+    if($recargas->RowCount() > 0){
+        $contR = (array) $recargas->fetch();
+    }else{
+        $contR = array(0=>"0");
+        //$cont[0] = "0";
+    }
+    //echo $cont[0];
+    
 ?>
 <script>
 $(document).ready(function(){
@@ -26,10 +42,16 @@ $(document).ready(function(){
 
             <ul class="list-group list-group-unbordered">
             <li class="list-group-item">
-                <b>Compras</b> <a class="pull-right">1,322</a>
+                <b>Compras</b> <a class="pull-right"><?php echo $cont[0]; ?></a>
             </li>
             <li class="list-group-item">
-                <b>Recargas</b> <a class="pull-right">543</a>
+                <b>Recargas</b> <a class="pull-right"><?php echo $contR[0]; ?></a>
+            </li>
+            <li class="list-group-item">
+                <b>Saldo: S/. </b> <a class="pull-right"><?php echo $dato[12]; ?></a>
+            </li>
+            <li class="list-group-item">
+                <b>Estado : </b> <a class="pull-right"><?php echo $dato[13]; ?></a>
             </li>
             </ul>
         </div>
@@ -58,7 +80,7 @@ $(document).ready(function(){
             <strong><i class="fa fa-map-marker margin-r-5"></i>Contacto</strong>
 
             <p class="text-muted">
-                <label for="">Teléfono: <?php echo $dato[6];?></label>
+                <label for="">Teléfono: <?php echo $dato[6];?></label><br>
                 <label for="">Cel: <?php echo $dato[5];?></label>
             </p>
 
@@ -95,7 +117,143 @@ $(document).ready(function(){
                     </li>
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...</div>
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="col-12">
+                            <br>
+                            <h5>Mis Compras</h5>
+                            <br>
+
+                        </div>
+                        <div class="col-12">
+                            <div class="container" style="overflow:auto;">
+                            <input class="form-control rounded-0" id="entrada" type="text" placeholder="Buscar mi compra">
+                            <br>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Codigo</th>
+                                    <th>Lave de compra</th>
+                                    <th>Estado de la Compra</th>
+                                    <th>Monto</th>
+                                    <th>Fecha</th>
+                                    <th>optiones</th>
+                                </tr>
+                                </thead>
+                                <tbody id="table_producto">
+                                   
+                                <tr>
+                                    <td>1</td>
+                                    <td>CMP-N1</td>
+                                    <td>NPMCA1ALL</td>
+                                    <td>PROCESO</td>
+                                    <td>S/. 5.8</td>
+                                    <td>7/7/2020 19:24:59</td>
+                                    <td><ul class="nav">
+
+                                        <li class="nav-item">
+                                            <p class="nav-link badge badge-info" data-toggle="modal" data-target="#modal_info"><i class="icon-attention-alt"></i></p>
+                                        </li>
+
+                                            <div class="modal fade" id="modal_info" tabindex="-1">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Info Producto</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <section class="col-md-12">
+
+                                                    <!-- Table row -->
+                                                        <div class="row">
+                                                            <div class="col-xs-12 table-responsive">
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                <tr>
+                                                                <th>Nombre producto</th>
+                                                                <th>Foto</th>
+                                                                <th>Cantidad producto</th>
+                                                                <th>Precio Producto</th>
+                                                                <th>Subtotal</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                <td>1</td>
+                                                                <td>Grown Ups Blue Ray</td>
+                                                                <td>422-568-642</td>
+                                                                <td>Tousled lomo letterpress</td>
+                                                                <td>$25.99</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            </div>
+                                                            <!-- /.col -->
+                                                        </div>
+                                                        <!-- /.row -->
+
+                                                        <div class="row">
+                                                            <!-- accepted payments column -->
+                                                            
+                                                            <!-- /.col -->
+                                                            <div class="col-xs-6">
+
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                <tbody><tr>
+                                                                    <th style="width:50%">Subtotal:</th>
+                                                                    <td>$250.30</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Tax (9.3%)</th>
+                                                                    <td>$10.34</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Shipping:</th>
+                                                                    <td>$5.80</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Total:</th>
+                                                                    <td>$265.24</td>
+                                                                </tr>
+                                                                </tbody></table>
+                                                            </div>
+                                                            </div>
+                                                            <!-- /.col -->
+                                                        </div>
+                                                        <!-- /.row -->
+                                                    </section>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            
+                            </div>
+
+                            <script>
+                            $(document).ready(function(){
+                            $("#entrada").on("keyup", function() {
+                                var value = $(this).val().toLowerCase();
+                                $("#table_producto tr").filter(function() {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                                });
+                            });
+                            });
+                            </script>
+
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
                     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                             <div class="col-12">
