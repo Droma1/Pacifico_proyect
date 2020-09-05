@@ -1,1 +1,0 @@
-<h5>hello cliente:  <?php $_SESSION['tipo_user']; ?></h5>

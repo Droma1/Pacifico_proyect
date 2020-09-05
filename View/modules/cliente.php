@@ -2,12 +2,12 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 col-sp-12 col-logo">
-				<div class="h-logo"><a href="<?php echo SERVERURL; ?>"><img src="<?php echo SERVERURL; ?>View/img/logo.jpg" alt="" class="img-fluid"></a></div>
+				<div class="h-logo"><a href="<?php echo SERVERURL; ?>/home"><img src="<?php echo SERVERURL; ?>View/img/logo.jpg" alt="" class="img-fluid"></a></div>
 			</div>
 			<div class="col-xl-6 col-lg-6 col-md-3 col-sm-3 col-xs-3 col-sp-3 col-menu">
 				<div class="navbar navbar-expand-sm navbar-light  justify-content-center br_home">
 						<div class="navbar-nav">
-							<li class="nav-item"><a href="<?php echo SERVERURL; ?>" class="nav-link"><strong>Inico</strong></a></li>
+							<li class="nav-item"><a href="<?php echo SERVERURL; ?>/home" class="nav-link"><strong>Inico</strong></a></li>
 							<li class="nav-item"><a href="#" class="nav-link"><strong>Galeria</strong></a></li>
 							<li class="nav-item"><a href="promotion" class="nav-link"><strong>Promociones</strong></a></li>
 						</div>
@@ -16,12 +16,13 @@
 			<div class="col-xl-3 col-lg-3 col-md-9 col-sm-9 col-xs-9 col-sp-9 col-info">
 				<div class="navbar navbar-expand-sm navbar-light  justify-content-center br_home">
 						<div class="navbar-nav">
-							<li class="nav-item"><a href="login" class="nav-link"><i class="icon-user"></i></a></li>
+							<li class="nav-item"><a href="ClienteInicio" class="nav-link"><i class="icon-user-circle"></i></a></li>
 							<li class="nav-item"><a  class="nav-link" id="car-show">
 								<strong>
 									<i class="icon-basket"></i>
 								</strong></a>
 							</li>
+                            <li class="nav-item"><a href="Out" class="nav-link"><i class="icon-logout"></i></a></li>
 						</div>
 				</div>
 			</div>
@@ -94,7 +95,7 @@
 										<br>
 										<div class="col-md-6">
 											<div class="form-group">
-												<a href="login" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Compra</a>
+												<a href="#" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Compra</a>
 											</div>
 										</div>
 									</div>

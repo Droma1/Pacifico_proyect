@@ -35,6 +35,24 @@
 	background-size: cover;
 	background-position: center;
 }
+#icono-usuario{
+	font-size: 100px;
+	text-align: center;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #ffad3b;
+}
+a {
+    color: #000000;
+    text-decoration: none;
+    background-color: transparent;
+}
+a:hover{
+    color: #ffad3b;
+    text-decoration: none;
+    background-color: transparent;
+}
 @media(max-width: 991px){
 	#baner{
 		display: none;

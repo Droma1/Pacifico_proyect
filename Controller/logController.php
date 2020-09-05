@@ -24,11 +24,12 @@
                         $tipo_usuario = logModel::log_Model($usuario);
                         $tipo_usuario2 = (array) $tipo_usuario->fetch();
                         $_SESSION['tipo_user'] = $tipo_usuario2[0];
+                        //$_SESSION['name_user'] = $tipo_usuario2[]
                         #echo $_SESSION['tipo_user'];
                         if(substr($_SESSION['tipo_user'],0,2) == "AD"){
-                            $url = SERVERURL."productventa";
+                            $url = SERVERURL."admin";
                         }else{
-                            $url = SERVERURL."client-bar";
+                            $url = SERVERURL."ClienteInicio";
                         }
                         return $urllocation = '<script> window.location="'.$url.'" </script>';
                         

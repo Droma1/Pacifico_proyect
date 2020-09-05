@@ -16,77 +16,182 @@
 		$vt = new viewController();
 		$vistasR=$vt->view_Controller();
 		//echo $vistasR;
-
-		if($vistasR=="home" || $vistasR == "404" || $vistasR == "login" || $vistasR == "promotion" || $vistasR == "producto" || $vistasR == "RegistroCliente" || $vistasR == "search"):
+		session_start(['name'=>'VP']);
+		if(!isset($_SESSION['tipo_user']) && $vistasR != null):
+			//echo $_SESSION['tipo_user'];
+				$listaBlanca=["home","search","login","index","promotion","producto","RegistroCliente"];
 				include "./View/modules/inicio.php";
-			switch($vistasR){
-				case 'home':
-						
+				if(isset($_GET['page'])){
+					if(in_array($_GET['page'],$listaBlanca)){
+						switch($vistasR){
+							case 'home':
+									
+									include "View/contents/baner.php";
+									include "View/contents/promotion.php";
+									?>
+									<section class="container-fluid" id="lista-productos">
+									<?php
+									include "./View/contents/list-product.php";
+									?>
+									</section>
+									<?php
+								break;
+			
+							case './View/contents/promotion-view.php':
+									?>
+									<section class="container-fluid" id="lista-productos">
+									<?php
+									include $vistasR;
+									?>
+									</section>
+									<?php
+								break;
+			
+							case "404":
+									include "./View/contents/404-view.php";
+							break;
+							default:
+									include $vistasR;
+							break;
+			
+						}
+					}else{
+						include "./View/contents/404-view.php";
+					}
+
+				}else{
+					//echo $vistasR;
+					if($vistasR == "home"){
 						include "View/contents/baner.php";
 						include "View/contents/promotion.php";
 						?>
 						<section class="container-fluid" id="lista-productos">
 						<?php
-						include "View/contents/list-product.php";
+						include "./View/contents/list-product.php";
 						?>
 						</section>
 						<?php
-					break;
-				case 'login':
-						include "View/contents/login-view.php";
-						
-					break;
-				case 'promotion':
-						?>
-						<section class="container-fluid" id="lista-productos">
-						<?php
-						include "./View/contents/promotion-view.php";
-						?>
-						</section>
-						<?php
-					break;
-				case 'producto':
-						include "./View/contents/producto-view.php";
-					break;
-				case "RegistroCliente":
-						include "./View/contents/RegistroCliente-view.php";
-					break;
-				case "search":
-						include "./View/contents/search-view.php";
-					break;
-				default:
-				include "./View/contents/404-view.php";
-				break;
-
-			}
-			
-					
+					}else{
+						include "./View/contents/404-view.php";
+					}
+				}
 
 					
 		else:
 			#session_destroy();
-			session_start(['name'=>'VP']);
+			
 
 			if(isset($_SESSION['tipo_user'])){
-				echo $_SESSION['tipo_user'];
+				//echo $_SESSION['tipo_user'];
+				
+			}else{
+				echo "no user";
 			}
+			//echo "<br>";
+			//echo $vistasR;
 			#var_dump($_SESSION['tipo_user']);
 	?>
 	<!-- SideBar -->
-	<?php include "./View/modules/navbar.php";
-	?>
+	
 
 	<!-- Content page-->
-	<section class="container-fluid">
-		<div class="row">
+	
 
 		<!-- NavBar -->
-		<?php include "./View/modules/admin.php"; ?>
+		
 		
 		<!-- Content page -->
-		<?php require_once $vistasR;?>
-		</div>
-	</section>
+		<?php
+
+				if(isset($_SESSION['tipo_user'])){
+					if(substr($_SESSION['tipo_user'],0,2) == "AD"){
+						include "./View/modules/navbar.php";
+						?>
+						<section class="container-fluid">
+							<div class="row"> 
+						<?php
+						include "./View/modules/admin.php";
+						$listaAdministrador=["admin","productadmi","almacen","productventa","repartidores","administrativo","clientes"];
+						if(isset($_GET['page'])){
+							if(in_array($_GET['page'], $listaAdministrador)){
+								require_once $vistasR;
+							}else{
+								if($vistasR == null){
+									$_SESSION['tipo_user'] = null;
+									$_GET['page'] = "login";
+									echo '<script> window.location="http://localhost/Pacifico/login" </script>';
+								}else{
+									require_once "./View/contents/admin-view.php";
+								}
+							}
+						}else{
+							require_once "./View/contents/admin-view.php";
+						}
+						?>
+							</div>
+						</section>
+						<?php
+					}elseif(substr($_SESSION['tipo_user'],0,2) == "CL"){
+						include "./View/modules/cliente.php";
+						$listaCliente=["ClienteInicio","promotion","producto","search","home"];
+						if(isset($_GET['page'])){
+							if(in_array($_GET['page'], $listaCliente)){
+								//echo $vistasR;
+								switch($vistasR){
+									case 'home':
+											
+											include "View/contents/baner.php";
+											include "View/contents/promotion.php";
+											?>
+											<section class="container-fluid" id="lista-productos">
+											<?php
+											include "./View/contents/list-product.php";
+											?>
+											</section>
+											<?php
+										break;
+					
+									case './View/contents/promotion-view.php':
+											?>
+											<section class="container-fluid" id="lista-productos">
+											<?php
+											include $vistasR;
+											?>
+											</section>
+											<?php
+										break;
+					
+									case "404":
+											include "./View/contents/404-view.php";
+									break;
+									default:
+											include $vistasR;
+									break;
+								}
+								//echo $vistasR;
+							}else{
+								if($vistasR == null){
+									$_SESSION['tipo_user'] = null;
+									$_GET['page'] = "login";
+									echo '<script> window.location="http://localhost/Pacifico/login" </script>';
+								}else{
+									require_once "./View/contents/ClienteInicio-view.php";
+								}
+							}
+						}else{
+							require_once "./View/contents/ClienteInicio-view.php";
+						}
+					}/*elseif(substr($_SESSION['tipo_user'],0,2) == "AM"){
+	
+					}elseif(substr($_SESSION['tipo_user'],0,2) == "RP"){
+						
+					}elseif(substr($_SESSION['tipo_user'],0,2) == "AL"){
+	
+					}*/
+					
+				}
+		 ?>
+		
 	<?php endif; ?>
 
 	<!--===== Scripts -->
