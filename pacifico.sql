@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-09-2020 a las 02:18:04
+-- Tiempo de generación: 06-09-2020 a las 06:52:14
 -- Versión del servidor: 10.3.16-MariaDB
 -- Versión de PHP: 7.3.6
 
@@ -227,17 +227,32 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`id_cliente`, `cod_cliente`, `saldo`, `cat_cliente`, `estado_cliente`, `id_persona`) VALUES
-(1, 'CL1', 50, 'CL1-A', '', 1),
-(2, 'CL2', 0, 'CL1-B', '', 2),
-(3, 'CL3', 20, 'CL1-C', '', 3),
-(4, 'CL8', 0, NULL, '', 8),
-(5, 'CL9', 0, NULL, '', 9),
-(6, 'CL10', 0, NULL, '', 10),
+(1, 'CL1', 50, 'CL1-A', 'HABILITADO', 1),
+(2, 'CL2', 0, 'CL1-B', 'HABILITADO', 2),
+(3, 'CL3', 20, 'CL1-C', 'HABILITADO', 3),
+(4, 'CL8', 0, NULL, 'HABILITADO', 8),
+(5, 'CL9', 0, NULL, 'HABILITADO', 9),
+(6, 'CL10', 0, NULL, 'HABILITADO', 10),
 (7, 'CL12', 0, NULL, 'HABILITADO', 12),
 (8, 'CL13', 0, NULL, 'HABILITADO', 13),
 (9, 'CL14', 0, NULL, 'HABILITADO', 14),
 (10, 'CL15', 0, NULL, 'HABILITADO', 15),
 (11, 'CL16', 0, NULL, 'HABILITADO', 16);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `compras`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `compras` (
+`cod_cliente` varchar(20)
+,`cod_compra` varchar(10)
+,`llave_compra` varchar(10)
+,`estado_compra` varchar(20)
+,`monto_compra` double
+,`fecha_compra` varchar(30)
+);
 
 -- --------------------------------------------------------
 
@@ -284,6 +299,28 @@ CREATE TABLE `compras_cliente` (
 INSERT INTO `compras_cliente` (`id_comp_c`, `cod_compra`, `llave_compra`, `estado_compra`, `monto_compra`, `fecha_compra`, `id_cliente`) VALUES
 (1, 'CMP-N1', 'NPMCA1ALL', 'PROCESO', 5.8, '7/7/2020 19:24:59', 2),
 (2, 'CMP-N2', 'NPMCB2BLL', 'COMPLETADO', 4.5, '7/7/2020 20:30:00', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `contador_compras`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `contador_compras` (
+`compras` bigint(21)
+,`cod_cliente` varchar(20)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `contador_recargas`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `contador_recargas` (
+`recargas` bigint(21)
+,`cod_cliente` varchar(20)
+);
 
 -- --------------------------------------------------------
 
@@ -370,13 +407,48 @@ INSERT INTO `envio` (`id_envio`, `id_repartidor`, `id_comp_c`, `estado_alm`, `fe
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `lista_compras`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `lista_compras` (
+`cod_cliente` varchar(20)
+,`cod_compra` varchar(10)
+,`cant_producto` int(11)
+,`precio_producto_c` double
+,`nombre_producto` varchar(100)
+,`foto1` varchar(100)
+,`estado_compra` varchar(20)
+,`cod_producto` varchar(10)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `lista_compras_c`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `lista_compras_c` (
+`cod_cliente` varchar(20)
+,`cod_compra` varchar(10)
+,`cant_producto_c` int(11)
+,`precio_producto_c` double
+,`nombre_producto` varchar(100)
+,`foto1` varchar(100)
+,`saldo_p` double
+,`metodo` varchar(50)
+,`monto_p` double
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pago`
 --
 
 CREATE TABLE `pago` (
   `id_pago` int(11) NOT NULL,
   `fecha_pago` varchar(30) DEFAULT NULL,
-  `saldo` double DEFAULT NULL,
+  `saldo_p` double DEFAULT NULL,
   `metodo` varchar(50) DEFAULT NULL,
   `monto_p` double DEFAULT NULL,
   `id_comp_c` int(11) NOT NULL
@@ -386,7 +458,7 @@ CREATE TABLE `pago` (
 -- Volcado de datos para la tabla `pago`
 --
 
-INSERT INTO `pago` (`id_pago`, `fecha_pago`, `saldo`, `metodo`, `monto_p`, `id_comp_c`) VALUES
+INSERT INTO `pago` (`id_pago`, `fecha_pago`, `saldo_p`, `metodo`, `monto_p`, `id_comp_c`) VALUES
 (2, '7/7/2020 19:30:17', 0, 'EN EFECTIVO', 4.5, 2);
 
 -- --------------------------------------------------------
@@ -547,17 +619,17 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`id_persona`, `nombres_p`, `apellidos_p`, `edad`, `sexo`, `direccion_p`, `nro_cel`, `nro_tel`, `dni`, `fecha_r`, `usuario`, `clave`) VALUES
-(1, 'Fernando', 'Flores Condori', 20, 'MASCULINO', 'Jr. gonzales Prada', 987654321, 82752499, 75206432, '7/7/2020 13:01:23', 'cliente1@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
-(2, 'Yuri Christian Yoshiro', 'Lopez Palomino', 23, 'MASCULINO', 'Av. Leon Velarde', 987654331, 82752489, 75206435, '7/7/2020 13:13:51', 'cliente2@pacifico.com', '$2y$12$tiyUGQgIwa/e78z3szhoH.YhfjLcKtvt4U50m/Cx.wiRt0KSGxHA6'),
-(3, 'Yoshiro', 'Lopez Palomino', 23, 'MASCULINO', 'Av. Leon Velarde', 987654931, 82752789, 75206433, '7/7/2020 13:51:15', 'cliente3@pacifico.com', '$2y$12$8FhJMtt86wqvFMdF2qubKeat9whclp2A5CkKHqpcDnghzUQKUWcWy'),
-(4, 'Christian', 'Perez Gomez', 21, 'MASCULINO', 'Av. Leon Velarde', 987652931, 82753789, 75206233, '7/7/2020 13:51:15', 'empleado1@pacifico.com', '$2y$12$UHXfc9g0B6hXZ365Te30nuMXNAUD/wL0GnsSTH4kGH3IM3L2m1V4K'),
-(5, 'Henrri', 'Ortega Quiñones', 29, 'MASCULINO', 'Av. Leon Velarde', 987652991, 82753719, 75206237, '7/7/2020 13:51:15', 'empleado2@pacifico.com', '$2y$12$UaIMR4O0SPmo.ctEAQKtdeSwb3Rii6MR7hdRdjwA2rUpC2Jv.C2wC'),
-(6, 'Elice', 'Quispe Contreras', 20, 'FEMENINO', 'Av. Leon Velarde', 987652991, 82793719, 75209237, '7/7/2020 13:51:15', 'empleado3@pacifico.com', '$2y$12$TY4iSBH6GHd77o.uD9xNp.V0BRregw6Lt6Dqip2mjcl7wBsen2bX.'),
-(7, 'Laura', 'Torres Viciagui', 27, 'FEMENINO', 'Av. Leon Velarde', 987152991, 82193719, 75219237, '7/7/2020 13:51:15', 'Admin@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
-(8, 'Pedro', 'Estrada L', 20, 'MASCULINO', 'Jr. gonzales Prada', 987654321, 82752499, 75906432, '7/7/2020 13:01:23', 'clienteasd@pacifico.com', '$2y$12$jYY4vbgl7p7gAX3fUjCHDOTBRBs21nzT.fu0bhY8.KkJAI3Hul0Zq'),
-(9, 'Maria', 'Cardoso Lopez', 27, 'Femenino', 'Jr. gonzales Prada', 987654721, 82759499, 45906432, '13/7/2020 18:51:32', 'cliente9@pacifico.com', '$2y$12$Fm01bAqBWAqaZExds6WFo.t1U64WBCLErnzxOHmuEDRVnmNae4Hp6'),
-(10, 'Maria', 'Cardoso Lopez', 27, 'Femenino', 'Jr. gonzales Prada', 987654721, 82759499, 45902432, '13/7/2020 18:51:32', 'cliente10@pacifico.com', '$2y$12$KrjmuK9794/9Ha2cLi834O0mUzR0pZOJRZ0i7YCycxA3UOIxFbqBa'),
-(12, 'Erik', 'Paredes', 1, 'Masculino', 'Av. Ernesto rivero', 1, 1, 1, '1', 'paredes@pacifico.com', '$2y$12$AMhxbbdOM91/BtH2bD4kRedoYhTbJCelsuiK0B1xU5/DXEAknZ9OW'),
+(1, 'Fernando', 'Flores Condori', 20, 'MASCULINO', 'Jr. gonzales Prada', 987654321, 82752499, 75206432, '2020-07-07 13:01:23', 'cliente1@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
+(2, 'Yuri Christian Yoshiro', 'Lopez Palomino', 23, 'MASCULINO', 'Av. Leon Velarde', 987654331, 82752489, 75206435, '2020-07-07 13:01:23', 'cliente2@pacifico.com', '$2y$12$tiyUGQgIwa/e78z3szhoH.YhfjLcKtvt4U50m/Cx.wiRt0KSGxHA6'),
+(3, 'Yoshiro', 'Lopez Palomino', 23, 'MASCULINO', 'Av. Leon Velarde', 987654931, 82752789, 75206433, '2020-07-07 13:01:23', 'cliente3@pacifico.com', '$2y$12$8FhJMtt86wqvFMdF2qubKeat9whclp2A5CkKHqpcDnghzUQKUWcWy'),
+(4, 'Christian', 'Perez Gomez', 21, 'MASCULINO', 'Av. Leon Velarde', 987652931, 82753789, 75206233, '2020-07-07 13:01:23', 'empleado1@pacifico.com', '$2y$12$UHXfc9g0B6hXZ365Te30nuMXNAUD/wL0GnsSTH4kGH3IM3L2m1V4K'),
+(5, 'Henrri', 'Ortega Quiñones', 29, 'MASCULINO', 'Av. Leon Velarde', 987652991, 82753719, 75206237, '2020-07-07 13:01:23', 'empleado2@pacifico.com', '$2y$12$UaIMR4O0SPmo.ctEAQKtdeSwb3Rii6MR7hdRdjwA2rUpC2Jv.C2wC'),
+(6, 'Elice', 'Quispe Contreras', 20, 'FEMENINO', 'Av. Leon Velarde', 987652991, 82793719, 75209237, '2020-07-07 13:01:23', 'empleado3@pacifico.com', '$2y$12$TY4iSBH6GHd77o.uD9xNp.V0BRregw6Lt6Dqip2mjcl7wBsen2bX.'),
+(7, 'Laura', 'Torres Viciagui', 27, 'FEMENINO', 'Av. Leon Velarde', 987152991, 82193719, 75219237, '2020-07-07 13:01:23', 'Admin@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
+(8, 'Pedro', 'Estrada L', 20, 'MASCULINO', 'Jr. gonzales Prada', 987654321, 82752499, 75906432, '2020-07-07 13:01:23', 'clienteasd@pacifico.com', '$2y$12$jYY4vbgl7p7gAX3fUjCHDOTBRBs21nzT.fu0bhY8.KkJAI3Hul0Zq'),
+(9, 'Maria', 'Cardoso Lopez', 27, 'Femenino', 'Jr. gonzales Prada', 987654721, 82759499, 45906432, '2020-07-07 13:01:23', 'cliente9@pacifico.com', '$2y$12$Fm01bAqBWAqaZExds6WFo.t1U64WBCLErnzxOHmuEDRVnmNae4Hp6'),
+(10, 'Maria', 'Cardoso Lopez', 27, 'Femenino', 'Jr. gonzales Prada', 987654721, 82759499, 45902432, '2020-07-07 13:01:23', 'cliente10@pacifico.com', '$2y$12$KrjmuK9794/9Ha2cLi834O0mUzR0pZOJRZ0i7YCycxA3UOIxFbqBa'),
+(12, 'Erik', 'Paredes', 0, 'Masculino', 'Av. Ernesto rivero', 1, 1, 1, '1', 'paredes@pacifico.com', '$2y$12$AMhxbbdOM91/BtH2bD4kRedoYhTbJCelsuiK0B1xU5/DXEAknZ9OW'),
 (13, 'Karen', 'molina', 25, 'Femenino', 'Av. Leon Velarde', 953624167, 461253, 95431672, '2020-08-16 17:53:31', 'molina@pacifico.com', '$2y$12$Q7Jg081dBHqDbW.39sRJresWn0sGtX0C5JNi52a/BWQIl.CjLkleK'),
 (14, 'Elver', 'Corahua', 30, 'Masculino', 'Jr. Los Robles', 945126357, 461253, 46127359, '2020-08-16 17:58:09', 'cor@pacifico.com', '$2y$12$82ferQ5tIkpj5qTqtnwK4exEk7OxAyXgL06dfux7D8zmo1p2g6NWO'),
 (15, 'Giuliana', 'sahuarico ochoa', 26, 'Femenino', '', 958613746, 956432, 49267681, '2020-08-17 08:23:58', 'emp@pacifico.com', '$2y$12$ivL6g.IcmxabLMDOYTj40uNtPay7CUlgoJxSFvrxfYdWCtWhG2UXC'),
@@ -706,15 +778,15 @@ CREATE TABLE `produc_compra_client` (
   `id_produc_comp` int(11) NOT NULL,
   `id_comp_c` int(11) DEFAULT NULL,
   `id_producto` int(11) DEFAULT NULL,
-  `cant_producto` int(11) DEFAULT NULL,
-  `precio_producto` double DEFAULT NULL
+  `cant_producto_c` int(11) DEFAULT NULL,
+  `precio_producto_c` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `produc_compra_client`
 --
 
-INSERT INTO `produc_compra_client` (`id_produc_comp`, `id_comp_c`, `id_producto`, `cant_producto`, `precio_producto`) VALUES
+INSERT INTO `produc_compra_client` (`id_produc_comp`, `id_comp_c`, `id_producto`, `cant_producto_c`, `precio_producto_c`) VALUES
 (1, 1, 7, 1, 4.5),
 (2, 1, 8, 1, 1.3),
 (3, 2, 7, 1, 4.5);
@@ -786,6 +858,20 @@ INSERT INTO `recarga` (`id_recarga`, `monto_recarga`, `boucher`, `estado_recarga
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `recargas`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `recargas` (
+`cod_cliente` varchar(20)
+,`monto_recarga` double
+,`boucher` varchar(50)
+,`estado_recarga` varchar(20)
+,`fecha_recarga` varchar(20)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `repartidor`
 --
 
@@ -849,6 +935,51 @@ CREATE TABLE `vehiculo` (
 
 INSERT INTO `vehiculo` (`id_vehiculo`, `placa_v`, `modelo_v`, `color_v`, `nro_ruedas`, `estado_v`, `id_repartidor`) VALUES
 (1, 'XT-50A', 'Hyosung Aquila Bobber GV300S 2020', 'NEGRO', 2, 'OPERATIVO', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `compras`
+--
+DROP TABLE IF EXISTS `compras`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `compras`  AS  select `cliente`.`cod_cliente` AS `cod_cliente`,`compras_cliente`.`cod_compra` AS `cod_compra`,`compras_cliente`.`llave_compra` AS `llave_compra`,`compras_cliente`.`estado_compra` AS `estado_compra`,`compras_cliente`.`monto_compra` AS `monto_compra`,`compras_cliente`.`fecha_compra` AS `fecha_compra` from (`cliente` join `compras_cliente`) where `compras_cliente`.`id_cliente` = `cliente`.`id_cliente` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `contador_compras`
+--
+DROP TABLE IF EXISTS `contador_compras`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contador_compras`  AS  select count(0) AS `compras`,`cliente`.`cod_cliente` AS `cod_cliente` from (`cliente` join `compras_cliente`) where `compras_cliente`.`id_cliente` = `cliente`.`id_cliente` group by `cliente`.`cod_cliente` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `contador_recargas`
+--
+DROP TABLE IF EXISTS `contador_recargas`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contador_recargas`  AS  select count(0) AS `recargas`,`cliente`.`cod_cliente` AS `cod_cliente` from (`cliente` join `recarga`) where `recarga`.`id_cliente` = `cliente`.`id_cliente` group by `cliente`.`cod_cliente` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `lista_compras`
+--
+DROP TABLE IF EXISTS `lista_compras`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `lista_compras`  AS  select `cliente`.`cod_cliente` AS `cod_cliente`,`compras_cliente`.`cod_compra` AS `cod_compra`,`producto`.`cant_producto` AS `cant_producto`,`produc_compra_client`.`precio_producto_c` AS `precio_producto_c`,`det_producto`.`nombre_producto` AS `nombre_producto`,`det_producto`.`foto1` AS `foto1`,`compras_cliente`.`estado_compra` AS `estado_compra`,`producto`.`cod_producto` AS `cod_producto` from ((((`cliente` join `compras_cliente`) join `producto`) join `produc_compra_client`) join `det_producto`) where `compras_cliente`.`id_cliente` = `cliente`.`id_cliente` and `produc_compra_client`.`id_comp_c` = `compras_cliente`.`id_comp_c` and `produc_compra_client`.`id_producto` = `producto`.`id_producto` and `det_producto`.`id_producto` = `producto`.`id_producto` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `lista_compras_c`
+--
+DROP TABLE IF EXISTS `lista_compras_c`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `lista_compras_c`  AS  select `cliente`.`cod_cliente` AS `cod_cliente`,`compras_cliente`.`cod_compra` AS `cod_compra`,`produc_compra_client`.`cant_producto_c` AS `cant_producto_c`,`produc_compra_client`.`precio_producto_c` AS `precio_producto_c`,`det_producto`.`nombre_producto` AS `nombre_producto`,`det_producto`.`foto1` AS `foto1`,`pago`.`saldo_p` AS `saldo_p`,`pago`.`metodo` AS `metodo`,`pago`.`monto_p` AS `monto_p` from (((((`cliente` join `producto`) join `det_producto`) join `compras_cliente`) join `produc_compra_client`) join `pago`) where `compras_cliente`.`id_cliente` = `cliente`.`id_cliente` and `produc_compra_client`.`id_comp_c` = `compras_cliente`.`id_comp_c` and `produc_compra_client`.`id_producto` = `producto`.`id_producto` and `det_producto`.`id_producto` = `producto`.`id_producto` and `pago`.`id_comp_c` = `compras_cliente`.`id_comp_c` ;
 
 -- --------------------------------------------------------
 
@@ -939,6 +1070,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `promocion_producto`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `promocion_producto`  AS  select `det_producto`.`nombre_producto` AS `nombre_producto`,`det_producto`.`foto1` AS `foto1`,`det_producto`.`descuento_producto` AS `descuento_producto`,`producto`.`cod_producto` AS `cod_producto`,`det_producto`.`fecha_ini_descuento` AS `fecha_ini_descuento`,`det_producto`.`fecha_fin_descuento` AS `fecha_fin_descuento`,`det_producto`.`precio_producto` AS `precio_producto` from (`producto` join `det_producto`) where `det_producto`.`id_producto` = `producto`.`id_producto` and `producto`.`estado_venta` = 'VIGENTE' and `det_producto`.`fecha_fin_descuento` > 0 order by `det_producto`.`fecha_fin_descuento` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `recargas`
+--
+DROP TABLE IF EXISTS `recargas`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `recargas`  AS  select `cliente`.`cod_cliente` AS `cod_cliente`,`recarga`.`monto_recarga` AS `monto_recarga`,`recarga`.`boucher` AS `boucher`,`recarga`.`estado_recarga` AS `estado_recarga`,`recarga`.`fecha_recarga` AS `fecha_recarga` from (`cliente` join `recarga`) where `recarga`.`id_cliente` = `cliente`.`id_cliente` ;
 
 --
 -- Índices para tablas volcadas
