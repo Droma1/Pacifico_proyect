@@ -7,7 +7,11 @@
 	
 class mainModel{
 		protected function conectar(){
-			$link = new PDO(SGBD,USER,PASS);
+			try{
+				$link = new PDO(SGBD,USER,PASS);
+			}catch (Exeption $e){
+				echo "Error al conectar a la base de datos error: ".$e;
+			}
 			return $link;
 		}
 		protected function consulta_simple($consulta){
