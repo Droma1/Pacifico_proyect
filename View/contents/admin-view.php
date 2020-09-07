@@ -19,7 +19,7 @@
 					<br>
 				</div>
 				<div class="col-md-6 col-sm-12">
-					<form>
+					
 						<div class="form-group">
 							<label for="">Nombres: <?php echo $dato['0']; ?></label>
 						</div>
@@ -33,38 +33,32 @@
 							<label for="">Titulo Profesional: <?php echo $dato['11']; ?></label>
 						</div>
 						<div class="form-group">
-							<label for="">Edad: </label>
-							<input type="text" class="form-control">
+							<label for="">Edad: <?php echo $dato['2']; ?></label>
+						</div>
+						
+				</div>
+				<div class="col-md-6 col-sm-12">
+				<div class="form-group">
+							<label for="">Sexo: <?php echo $dato['3']; ?></label>
 						</div>
 						<div class="form-group">
-							<label for="">Sexo: </label>
-							<input type="text" class="form-control">
+							<label for="">Direccion: <?php echo $dato['4']; ?></label>
 						</div>
 						<div class="form-group">
-							<label for="">Direccion: </label>
-							<input type="text" class="form-control">
+							<label for="">Nro Celular: <?php echo $dato['5']; ?></label>
+						</div>
+						
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<div class="form-group">
+							<label for="">Nro Telefono: <?php echo $dato['6']; ?></label>
 						</div>
 						<div class="form-group">
-							<label for="">Nro Celular: </label>
-							<input type="text" class="form-control">
+							<label for="">DNI: <?php echo $dato['7']; ?></label>
 						</div>
 						<div class="form-group">
-							<label for="">Nro Telefono: </label>
-							<input type="text" class="form-control">
+							<label for="">Fecha de Registro: <?php echo $dato['8']; ?></label>
 						</div>
-						<div class="form-group">
-							<label for="">DNI</label>
-							<input type="text" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="">Fecha de Registro</label>
-							<input type="text" class="form-control" readonly="">
-						</div>
-						<div class="form-group"><input type="submit" class="btn btn-success rounded-0" value="Guardar Cambios"></div>
-
-						<div class="Respuesta"></div>
-
-					</form>
 				</div>
 			</div>
 		</div>
