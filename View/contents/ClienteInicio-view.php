@@ -293,39 +293,44 @@ $(document).ready(function(){
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <!--<form class="FormularioAjax" data-form="save">-->
+                                                    <form action="<?php echo SERVERURL; ?>Ajax/Ajax_Recarga.php" data-form="" method="POST" class="formAjax2" enctype="multipart/from-data">
                                                         <div class="col-12">
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
                                                                         <label for="">Codigo Cliente:</label>
-                                                                        <input type="text" name="cod_cliente" value="<?php echo $_SESSION['tipo_user'] ?>" id="" class="form-control rounded-0" readonly>
+                                                                        <input type="text" name="cod_cliente" value="<?php echo $_SESSION['tipo_user'] ?>" id="cliente_c" class="form-control rounded-0" readonly>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="">Monto de la recarga</label>
-                                                                        <input type="number" name="monto" class="form-control rounded-0" id="">
+                                                                        <input type="number" name="monto" class="form-control rounded-0" id="monto_r">
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="">Boucher de Recarga:</label>
-                                                                        <input type="file" name="boucher" class="form-control rounded-0" id="">
+                                                                        <input type="file" name="boucher" id="imgInp" class="form-control rounded-0" id="img_recarga">
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="">Fecha de la Recarga</label>
-                                                                        <input type="text" name="" class="form-control rounded-0" value="<?php echo date('Y-m-d H:i:s'); ?>" id="" readonly>
+                                                                        <input type="text" name="date" class="form-control rounded-0" value="<?php echo date('Y-m-d H:i:s'); ?>" id="fecha_r" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="card">
-                                                                        <div class="card-body"></div>
+                                                                        <div class="card-body">
+                                                                            <div class="text-center">
+                                                                                <img id="blah" data-src="holder.js/200x200" class="rounded-0" alt="200x200" src="<?php echo SERVERURL; ?>View/img/descarga.svg" data-holder-rendered="true" style="width: 200px; height: 200px;">
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
-                                                            <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                                                        <input type="submit" class="btn btn-outline-success rounded-0" value="Recargar">
                                                             <div class="RespuestaAjax"></div>
                                                         </div>
-                                                    <!--</form>-->
+                                                        <div class="RespuestaAjax2"></div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -339,7 +344,7 @@ $(document).ready(function(){
                             if($recarga->rowCount() > 0){ $contador_r = 0;
                         ?>
                             <div class="container table-responsive">
-                                <input class="form-control" id="entrada" type="text" placeholder="Buscar en la tabla">
+                                <input class="form-control" id="entrada_recarga" type="text" placeholder="Buscar en la tabla">
                                 <br>
                                 <table class="table table-striped">
                                     <thead>
@@ -351,7 +356,7 @@ $(document).ready(function(){
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="table_producto">
+                                    <tbody id="table_recarga">
                                         <?php while($re = $recarga->fetch()){ $contador_r++;?>
                                         <tr>
                                             <td><?php echo $contador_r; ?></td>
@@ -366,7 +371,7 @@ $(document).ready(function(){
                                                     <div class="modal-dialog modal-xl">
                                                         <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Info Repartidores</h5>
+                                                            <h5 class="modal-title" id="exampleModalLabel">Informacion de mi Recarga</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -394,7 +399,11 @@ $(document).ready(function(){
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="card">
-                                                                            <div class="card-body"></div>
+                                                                            <div class="card-body">
+                                                                                <div class="text-center">
+                                                                                    <img data-src="holder.js/200x200" class="rounded-0" alt="200x200" src="<?php echo SERVERURL; ?>View/imgP/<?php echo $re[2]; ?>" data-holder-rendered="true" style="width: 200px; height: 200px;">
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -417,9 +426,9 @@ $(document).ready(function(){
 
                             <script>
                             $(document).ready(function(){
-                                $("#entrada").on("keyup", function() {
+                                $("#entrada_recarga").on("keyup", function() {
                                     var value = $(this).val().toLowerCase();
-                                    $("#table_producto tr").filter(function() {
+                                    $("#table_recarga tr").filter(function() {
                                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                                     });
                                 });
@@ -436,23 +445,28 @@ $(document).ready(function(){
                     </div>
                     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                             <div class="col-12">
-                                <form>
+                                <form action="<?php echo SERVERURL; ?>Ajax/Ajax_cliente.php" data-form="" method="POST" class="formAjax" enctype="multipart/from-data">
                                     <div class="row">
                                         <div class="col-md-6">
+                                            <label for="">Codigo de Cliente: </label>
+                                            <input type="text" name="cod_edit" value="<?php echo $_SESSION['tipo_user']; ?>" class="form-control rounded-0" readonly>
+                                        </div>
+                                        <div class="col-md-6">
                                             <label for="">Nombre: </label>
-                                            <input type="text" class="form-control rounded-0" value="<?php echo $dato[0]; ?>"  placeholder="Nombre...">
+                                            <input name="name_edit" type="text" class="form-control rounded-0" value="<?php echo $dato[0]; ?>"  placeholder="Nombre...">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Apellidos: </label>
-                                            <input type="text" class="form-control rounded-0" value="<?php echo $dato[1]; ?>" placeholder="Apellios...">
+                                            <input type="text" name="app_edit" class="form-control rounded-0" value="<?php echo $dato[1]; ?>" placeholder="Apellios...">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Edad :</label>
-                                            <input type="number" value="<?php echo $dato[2]; ?>" class="form-control rounded-0">
+                                            <input type="number" name="edad_edit" value="<?php echo $dato[2]; ?>" class="form-control rounded-0">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Sexo: <?php echo $dato[3]; ?></label>
-                                            <select name="" id="" class="form-control rounded-0">
+                                            <input type="text" name="sexo_origin" readonly value="<?php echo $dato[3]; ?>" style="display:none;">
+                                            <select name="sexo_edit" id="" class="form-control rounded-0">
                                                 <option value="0">...</option>
                                                 <option value="MASCULINO">MASCULINO</option>
                                                 <option value="FEMENINO">FEMENINO</option>
@@ -460,32 +474,32 @@ $(document).ready(function(){
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Direccion: </label>
-                                            <input type="text" value="<?php echo $dato[4]; ?>" class="form-control rounded-0">
+                                            <input type="text" name="direc_edit" value="<?php echo $dato[4]; ?>" class="form-control rounded-0">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Nro. de Cel. :</label>
-                                            <input type="text" value="<?php echo $dato[5]; ?>" class="form-control rounded-0">
+                                            <input type="text" name="cel_edit" value="<?php echo $dato[5]; ?>" class="form-control rounded-0">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Nro. de Tel. :</label>
-                                            <input type="text" value="<?php echo $dato[6]; ?>" class="form-control rounded-0">
+                                            <input type="text" name="tel_edit" value="<?php echo $dato[6]; ?>" class="form-control rounded-0">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">DNI :</label>
-                                            <input type="text" value="<?php echo $dato[7]; ?>" class="form-control rounded-0">
+                                            <input type="text" name="dni_edit" value="<?php echo $dato[7]; ?>" class="form-control rounded-0">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Fecha de Registro :</label>
-                                            <p class="text-muted form-control rounded-0" readonly><?php echo $dato[8]; ?></p>
+                                            <p class="text-muted form-control rounded-0" name="fr_edit" readonly><?php echo $dato[8]; ?></p>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Usuario :</label>
-                                            <input type="text" value="<?php echo $dato[9]; ?>" class="form-control rounded-0">
+                                            <input type="text" name="user_edit" readonly value="<?php echo $dato[9]; ?>" class="form-control rounded-0">
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="">Contraseña :</label>
-                                                <input type="text" class="form-control rounded-0">
+                                                <input type="password" name="pass_edit" class="form-control rounded-0">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -494,6 +508,7 @@ $(document).ready(function(){
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="RespuestaAjax"></div>
                                 </form>
                             </div>
                     </div>

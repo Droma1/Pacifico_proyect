@@ -6,6 +6,138 @@
     }
 
     class clienteController extends clienteModel{
+
+        public function recarga_cliente(){
+            $codigo = mainModel::clear_string($_POST['cod_cliente']);
+            $monto = mainModel::clear_string($_POST['monto']);
+            $boucher = $_FILES['boucher']["name"];
+            $fecha = mainModel::clear_string($_POST['date']);
+
+            if($monto !="" && $boucher !="" && $fecha !=""){
+                if($boucher !=""){
+                    $type=$_FILES['boucher']['type'];
+                    $tmp_name = $_FILES['boucher']["tmp_name"];
+                    $name = $_FILES['boucher']["name"];
+                    $nuevo_path="../View/imgP/".$name;
+                    move_uploaded_file($tmp_name,$nuevo_path);
+                    $array=explode('.',$nuevo_path);
+                    $ruta = $nuevo_path;
+                    $arch=$name;
+                    $ext= end($array);
+                }
+                $datos_recarga = [
+                    "codigo" => $codigo,
+                    "monto" => $monto,
+                    "boucher" => $arch,
+                    "estado" => "PROCESO",
+                    "fecha" => $fecha
+                ];
+                //echo $arch;
+                $respuesta = clienteModel::recarga_cliente_model($datos_recarga);
+                if($respuesta->rowCount()>=1){
+                    $alerta = [
+                        "Alerta" => "simple",
+                        "titulo" => "Recarga exitosa!",
+                        "texto" => "Su recarga fue procesado con exito espera la respuesta de los administradores para la verificacion de su boucher...",
+                        "tipo" => "Completado!",
+                        "clase" => "success"
+                    ];
+                }else{
+                    $alerta = [
+                        "Alerta" => "simple",
+                        "titulo" => "Error de Sistema!",
+                        "texto" => "Se produgeron errores con el sistema y no se pudo registrar su recarga, vuelva a intentar...",
+                        "tipo" => "Error!",
+                        "clase" => "danger"
+                    ];
+                }
+            }else{
+                $alerta = [
+                    "Alerta" => "simple",
+                    "titulo" => "Advertencia!",
+                    "texto" => "Faltan campos por completar, asegurese que lleno todos los campos que se necesitan...",
+                    "tipo" => "Error!",
+                    "clase" => "warning"
+                ];
+            }
+            return mainModel::alerts($alerta);
+        }
+
+        public function edit_cliente(){
+            
+            $nombre = mainModel::clear_string($_POST['name_edit']);
+            $apellido = mainModel::clear_string($_POST['app_edit']);
+            $edad = mainModel::clear_string($_POST['edad_edit']);
+            $sexo_o = mainModel::clear_string($_POST['sexo_origin']);
+            $sexo = mainModel::clear_string($_POST['sexo_edit']);
+            $Direccion = mainModel::clear_string($_POST['direc_edit']);
+            $nro_cel = mainModel::clear_string($_POST['cel_edit']);
+            $nro_tel = mainModel::clear_string($_POST['tel_edit']);
+            $dni = mainModel::clear_string($_POST['dni_edit']);
+            $usuario = mainModel::clear_string($_POST['user_edit']);
+            $pass = mainModel::clear_string($_POST['pass_edit']);
+
+            if($codigo_ =!"" && $nombre!="" && $apellido !="" && $nro_cel !="" && $dni !="" && $usuario !="" && $pass!=""){
+
+                $clave_v = mainModel::consulta_simple("select clave from persona where usuario = '$usuario';");
+                if($clave_v->rowCount() >=1){
+                    $verif = (array) $clave_v->fetch();
+                    $clave_x = mainModel::verify($pass,$verif[0]);
+                    if($clave_x == true){
+                        if($sexo != $sexo_o && $sexo != 0){
+                            $sexo_o = $sexo;
+                        }
+                        $datos_edit = [
+                            "codigo" => $_POST['cod_edit'],
+                            "nombre" => $nombre,
+                            "apellido" => $apellido,
+                            "edad" => $edad,
+                            "sexo" => $sexo_o,
+                            "direccion" => $Direccion,
+                            "cel" => $nro_cel,
+                            "tel" => $nro_tel,
+                            "dni" => $dni
+                        ];
+                        $editar_cliente = clienteModel::edit_cliente_model($datos_edit);
+                        if($editar_cliente->rowCount() >= 1){
+                            $alerta = [
+                                "Alerta" => "simple",
+                                "titulo" => "Proceso Completado!",
+                                "texto" => "Las Modificaciones se guardaron exitosamente....",
+                                "tipo" => "Completado!",
+                                "clase" => "success"
+                            ];
+                        }else{
+                            $alerta = [
+                                "Alerta" => "simple",
+                                "titulo" => "Error de sistema!",
+                                "texto" => "se produjo un error inesperado al guardar los datos o no se registraron cambios...",
+                                "tipo" => "Advertencia",
+                                "clase" => "danger"
+                            ];
+                        }
+
+                    }else{
+                        $alerta = [
+                            "Alerta" => "simple",
+                            "titulo" => "Error de usuario!",
+                            "texto" => "Las contraseñas no coinciden vuelva a intentar...",
+                            "tipo" => "Advertencia",
+                            "clase" => "danger"
+                        ];
+                    }
+                }
+            }else{
+                    $alerta = [
+                        "Alerta" => "simple",
+                        "titulo" => "Ocurrio un error inesperado",
+                        "texto" => "Hay campos sin rellenar",
+                        "tipo" => "error",
+                        "clase" => "warning"
+                    ]; 
+            }
+            return mainModel::alerts($alerta);
+        }
         public function add_cliente_controller(){
             $Nombre = mainModel::clear_string($_POST['nombre_cliente']);
             $Apellido = mainModel::clear_string($_POST['apellido_cliente']);

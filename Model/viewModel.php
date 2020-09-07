@@ -2,7 +2,7 @@
 	class viewModel{
 		protected function view_Model($vistas){
 			$listaBlanca=["home","search","login","index","promotion","producto","RegistroCliente"];
-			$listaCliente=["ClienteInicio","promotion","producto","search","home"];
+			$listaCliente=["ClienteInicio","promotion","producto","search","home","compra"];
 			$listaAdministrador=["admin","productadmi","almacen","productventa","repartidores","administrativo","clientes"];
 			$listaAlmacen=[];
 			

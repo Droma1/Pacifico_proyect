@@ -28,21 +28,40 @@
             #$F1 = $_REQUEST['F1'];
             $F1_name = $_FILES['F1']['name'];
             if($F1_name !=""){
-                $arch = $_FILES['F1']['tmp_name'];
-            $ruta1 = "View/imgP/".$F1_name;
-            #move_uploaded_file($arch,$ruta1);
+                $type=$_FILES['F1']['type'];
+                $tmp_name = $_FILES['F1']["tmp_name"];
+                $name = $_FILES['F1']["name"];
+                $nuevo_path="../View/imgP/".$name;
+                move_uploaded_file($tmp_name,$nuevo_path);
+                $array=explode('.',$nuevo_path);
+                $ruta1 = $nuevo_path;
+                $arch=$F1_name;
+                $ext= end($array);
+
             }
             $F2_name = $_FILES['F2']['name'];
             if($F2_name!=""){
-                $arch2 = $_FILES['F2']['tmp_name'];
-            $ruta2 = "View/imgP/".$F2_name;
-            #move_uploaded_file($arch2,$ruta1);
+                $type=$_FILES['F2']['type'];
+                $tmp_name = $_FILES['F2']["tmp_name"];
+                $name = $_FILES['F2']["name"];
+                $nuevo_path="../View/imgP/".$name;
+                move_uploaded_file($tmp_name,$nuevo_path);
+                $array=explode('.',$nuevo_path);
+                $ruta2 = $nuevo_path;
+                $arch2=$F2_name;
+                $ext= end($array);
             }
             $F3_name = $_FILES['F3']['name'];
             if($F3_name !=""){
-                $arch3 = $_FILES['F3']['tmp_name'];
-            $ruta3 = "View/imgP/".$F3_name;
-            #move_uploaded_file($arch3,$ruta3);
+                $type=$_FILES['F3']['type'];
+                $tmp_name = $_FILES['F3']["tmp_name"];
+                $name = $_FILES['F3']["name"];
+                $nuevo_path="../View/imgP/".$name;
+                move_uploaded_file($tmp_name,$nuevo_path);
+                $array=explode('.',$nuevo_path);
+                $ruta3 = $nuevo_path;
+                $arch3=$F3_name;
+                $ext= end($array);
             }
 
             if($new_cat=="" && $Cod_cat !=""){
@@ -53,29 +72,29 @@
                 $estado_c = 1;
             }
             
-           if($Nomb_cat !="" && $Cod_p!="" && $CantidadP!="" && $DescripP!="" && $PrecioV!="" && $PrecioA!=""){
+           if($categoria_ !="" && $Cod_p!="" && $CantidadP!="" && $DescripP!="" && $PrecioV!="" && $PrecioA!=""){
                $producto = [
-                   "CodigoCategoria" => $categoria_,
-                   "NombreCategoria" => $Nomb_cat,
-                   "DescripCategoria" => $Des_cat,
-                   "CodProducto" => $Cod_p,
-                   "FechaI" => $FechaIP,
-                   "CantidadP" => $CantidadP,
-                   "EstadoP" => $EstadoV,
+                   "CodigoCategoria" => "$categoria_",
+                   "NombreCategoria" => "$Nomb_cat",
+                   "DescripCategoria" => "$Des_cat",
+                   "CodProducto" => "$Cod_p",
+                   "FechaI" => "$FechaIP",
+                   "CantidadP" => floatval($CantidadP),
+                   "EstadoP" => "$EstadoV",
                    "EstadoV" => "NO VIGENTE",
-                   "NombreP" => $NombP,
-                   "DescripP" => $DescripP,
-                   "AlturaP" => $AlturaP,
-                   "AnchoP" => $AnchoP,
-                   "PrecioP" => $PrecioV,
-                   "PrecioA" => $PrecioA,
-                   "ColorP" => $ColorP,
-                   "F1" => $arch,
-                   "F2" => $arch2,
-                   "F3" => $arch3,
-                   "DescuentoP" =>$DescuentoP,
-                   "FechaID" => $FechaID,
-                   "FechaFD" => $FechaFD,
+                   "NombreP" => "$NombP",
+                   "DescripP" => "$DescripP",
+                   "AlturaP" => floatval($AlturaP),
+                   "AnchoP" => floatval($AnchoP),
+                   "PrecioP" => floatval($PrecioV),
+                   "PrecioA" => floatval($PrecioA),
+                   "ColorP" => "$ColorP",
+                   "F1" => "$arch",
+                   "F2" => "$arch2",
+                   "F3" => "$arch3",
+                   "DescuentoP" =>floatval($DescuentoP),
+                   "FechaID" => "$FechaID",
+                   "FechaFD" => "$FechaFD",
                    "EstadoCat" => $estado_c
                ];
                $guardar_producto = productoModel::Reg_producto_Model($producto);

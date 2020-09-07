@@ -133,7 +133,7 @@
 						<?php
 					}elseif(substr($_SESSION['tipo_user'],0,2) == "CL"){
 						include "./View/modules/cliente.php";
-						$listaCliente=["ClienteInicio","promotion","producto","search","home"];
+						$listaCliente=["ClienteInicio","promotion","producto","search","home","compra"];
 						if(isset($_GET['page'])){
 							if(in_array($_GET['page'], $listaCliente)){
 								//echo $vistasR;

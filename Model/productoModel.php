@@ -7,7 +7,10 @@
 
     class productoModel extends mainModel{
         protected function Reg_producto_Model($dato){
-            $sql = mainModel::conectar()->prepare("call registro_producto(:CodigoCategoria,:NombreCategoria,:DescripCategoria,:CodProducto,:FerchaI,:CantidadP,:EstadoP,:EstadoV,:NombreP,:DescripP,:AlturaP,:AnchoP,:PrecioP,:PrecioPA,:ColorP,F1,:F2,:F3,:DescuentoP,:FechaID,:FechaFD,:EstadoCat);");
+           // echo var_dump($dato);
+            echo "<br>";
+            //echo $dato['AlturaP'];
+            $sql = mainModel::conectar()->prepare("call registro_producto(:CodigoCategoria,:NombreCategoria,:DescripCategoria,:CodProducto,:FechaI,:CantidadP,:EstadoP,:EstadoV,:NombreP,:DescripP,:AlturaP,:AnchoP,:PrecioP,:PrecioPA,:ColorP,:F1,:F2,:F3,:DescuentoP,:FechaID,:FechaFD,:EstadoCat);");
 
             $sql->bindParam(":CodigoCategoria",$dato['CodigoCategoria']);
             $sql->bindParam(":NombreCategoria",$dato['NombreCategoria']);
@@ -22,7 +25,7 @@
             $sql->bindParam(":AlturaP",$dato['AlturaP']);
             $sql->bindParam(":AnchoP",$dato['AnchoP']);
             $sql->bindParam(":PrecioP",$dato['PrecioP']);
-            $sql->bindParam(":PrecioA",$dato['PrecioA']);
+            $sql->bindParam(":PrecioPA",$dato['PrecioA']);
             $sql->bindParam(":ColorP",$dato['ColorP']);
             $sql->bindParam(":F1",$dato['F1']);
             $sql->bindParam(":F2",$dato['F2']);
@@ -32,7 +35,12 @@
             $sql->bindParam(":FechaFD",$dato['FechaFD']);
             $sql->bindParam(":EstadoCat",$dato['EstadoCat']);
 
-            $sql->execute();
+
+            try{
+                $sql->execute();
+            }catch (Exception $e){
+                echo "Algo Salio Mal: ".$e;
+            }
 
             return $sql;
         }

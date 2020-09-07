@@ -38,6 +38,7 @@
 															<option value="CCP">CCP</option>
 															<option value="ZB">ZB</option>
 															<option value="APL">APL</option>
+															<option value="LC">LC lacteos</option>
 									        			</select>
 									        		</div>
 									        		<div class="form-group new_name">
@@ -63,8 +64,8 @@
 									        		<div class="form-group">
 									        			<label for="">Disponibilidad del Producto</label>
 									        			<select class="form-control rounded-0" name="estadoV">
-									        				<option value="">EN STOCK</option>
-									        				<option value="">AGOTADO</option>
+									        				<option value="EN STOCK">EN STOCK</option>
+									        				<option value="AGOTADO">AGOTADO</option>
 									        			</select>
 									        		</div>
 									        		<div class="form-group">
