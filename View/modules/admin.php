@@ -1,4 +1,4 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block bg-light sidebar collapse" style="">
+<nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block sidebar collapse" style="background-color:#f9fb6057;">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">

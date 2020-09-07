@@ -1,3 +1,13 @@
+<?php
+    require_once "./Controller/admin-viewController.php";
+    $perfil = new AdminViewController();
+    $datos = $perfil->perfil($_SESSION['tipo_user']);
+
+	$dato = (array) $datos->fetch();
+	//echo $_SESSION['tipo_user'];
+	//echo var_dump($dato);
+    
+?>
 <main role="main" class="col-md-9 ml-sm-auto col-lg-9 px-md-4">
 	<br>
 	<div class="card rounded-0">
@@ -11,20 +21,16 @@
 				<div class="col-md-6 col-sm-12">
 					<form>
 						<div class="form-group">
-							<label for="">Nombres: </label>
-							<input type="text" class="form-control">
+							<label for="">Nombres: <?php echo $dato['0']; ?></label>
 						</div>
 						<div class="form-group">
-							<label for="">Apellidos </label>
-							<input type="text" class="form-control">
+							<label for="">Apellidos: <?php echo $dato['1']; ?></label>
 						</div>
 						<div class="form-group">
-							<label for="">Usuario</label>
-							<input type="text" class="form-control">
+							<label for="">Usuario: <?php echo $dato['9']; ?></label>
 						</div>
 						<div class="form-group">
-							<label for="">Titulo Profesional: </label>
-							<input type="text" class="form-control">
+							<label for="">Titulo Profesional: <?php echo $dato['11']; ?></label>
 						</div>
 						<div class="form-group">
 							<label for="">Edad: </label>
