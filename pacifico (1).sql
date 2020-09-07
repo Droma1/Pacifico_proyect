@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-09-2020 a las 06:52:14
+-- Tiempo de generación: 07-09-2020 a las 02:22:57
 -- Versión del servidor: 10.3.16-MariaDB
 -- Versión de PHP: 7.3.6
 
@@ -50,7 +50,7 @@ INSERT INTO cat_producto(
     cod_categoria,
     nombre_cat_producto,
     descrip_cat_producto
-)values(cod_cat,nombre_cat,descip_cat);
+)values(cod_cat,nombre_cat,descrip_cat);
 select LAST_INSERT_ID() INTO @id_cat;
 
 else
@@ -183,7 +183,8 @@ CREATE TABLE `cat_producto` (
 INSERT INTO `cat_producto` (`id_cat_producto`, `cod_categoria`, `nombre_cat_producto`, `descrip_cat_producto`) VALUES
 (1, 'CCP', 'Conservas y Comida Preparada', 'Descubra la gran variedad, calidad y facilidad de los preparados ecológicos. Donde la rapidez no está reñida con la calidad.'),
 (2, 'ZB', 'Zumos y Bebidas', 'Zumos elaborados de forma artesana que garantiza la máxima calidad y nos permite la conservación de todo su sabor y valor nutritivo. Zumos que aportan un mayor número de vitaminas naturales.\nDescubre la increíble calidad de los vinos ecológicos.'),
-(3, 'APL', 'Aceite, Pasta y Legumbres', 'Aceites de altísima calidad, en aroma y sabor; de las variedades hojiblanca y alberquina, obtenidos de la extracción en frio utilizando únicamente procesos mecánicos (eco).');
+(3, 'APL', 'Aceite, Pasta y Legumbres', 'Aceites de altísima calidad, en aroma y sabor; de las variedades hojiblanca y alberquina, obtenidos de la extracción en frio utilizando únicamente procesos mecánicos (eco).'),
+(4, 'LC', 'Lacteos', 'productos hechos a partir de la leche o que derivan de la misma, como ser queso, yogurt, manteca, crema de leche');
 
 -- --------------------------------------------------------
 
@@ -228,7 +229,7 @@ CREATE TABLE `cliente` (
 
 INSERT INTO `cliente` (`id_cliente`, `cod_cliente`, `saldo`, `cat_cliente`, `estado_cliente`, `id_persona`) VALUES
 (1, 'CL1', 50, 'CL1-A', 'HABILITADO', 1),
-(2, 'CL2', 0, 'CL1-B', 'HABILITADO', 2),
+(2, 'CL2', 15, 'CL1-B', 'HABILITADO', 2),
 (3, 'CL3', 20, 'CL1-C', 'HABILITADO', 3),
 (4, 'CL8', 0, NULL, 'HABILITADO', 8),
 (5, 'CL9', 0, NULL, 'HABILITADO', 9),
@@ -379,7 +380,8 @@ INSERT INTO `det_producto` (`id_det_producto`, `nombre_producto`, `descripcion_p
 (3, 'Aceite Soya 1L', 'Aceite vegetal ára frituras y ensaladas Soya  de 1L amigable con el paladar', 20, 6, 5, 0, 'Blanco', '', '', '', 0.07, '2020-07-07 18:39:04', '2020-09-07 18:39:04', 6),
 (4, 'Atun A1', 'Atun enlatado y triturado para ensaladas, concerva enlatada de 200g.', 3, 10, 3, 0, 'Blanco', '', '', '', 0, '2020-07-07 18:39:04', '2020-09-07 18:39:04', 5),
 (5, 'Yogur Nestle 125g.', 'Yogur envasado portátil ideal para refrigerios y combinarlos con cereales', 4, 125, 0.6, 0.4, 'Cleste', '', '', '', NULL, NULL, NULL, 9),
-(6, 'Yogur Nestle 1L', 'Yogur de leche El clásico Yogur Natural Nestlé disponible en formato ahorro.', 8, 125, 5, 4.7, 'Azul,Blanco', '', '', '', NULL, NULL, NULL, 10);
+(6, 'Yogur Nestle 1L', 'Yogur de leche El clásico Yogur Natural Nestlé disponible en formato ahorro.', 8, 125, 5, 4.7, 'Azul,Blanco', '', '', '', NULL, NULL, NULL, 10),
+(9, 'Leche Gloria 400g', 'Es una leche evaporada enriquecida con vitaminas A y D fuente natural de proteínas y minerales como el calcio y el fósforo. Las proteínas son nutrientes que promueven el crecimiento y contribuyen a conservar la masa muscular y los minerales calcio y fósforo ayudan a mantener los huesos y dientes.', 0, 0, 3.2, 2.8, 'Azul', '3P.jpg', '2P.jpg', '1P.jpg', 0, '', '', 11);
 
 -- --------------------------------------------------------
 
@@ -620,7 +622,7 @@ CREATE TABLE `persona` (
 
 INSERT INTO `persona` (`id_persona`, `nombres_p`, `apellidos_p`, `edad`, `sexo`, `direccion_p`, `nro_cel`, `nro_tel`, `dni`, `fecha_r`, `usuario`, `clave`) VALUES
 (1, 'Fernando', 'Flores Condori', 20, 'MASCULINO', 'Jr. gonzales Prada', 987654321, 82752499, 75206432, '2020-07-07 13:01:23', 'cliente1@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
-(2, 'Yuri Christian Yoshiro', 'Lopez Palomino', 23, 'MASCULINO', 'Av. Leon Velarde', 987654331, 82752489, 75206435, '2020-07-07 13:01:23', 'cliente2@pacifico.com', '$2y$12$tiyUGQgIwa/e78z3szhoH.YhfjLcKtvt4U50m/Cx.wiRt0KSGxHA6'),
+(2, 'Erik', 'Lopez Palomino', 20, '0', 'Av. Gonzales Prada', 987654333, 82752489, 75206435, '2020-07-07 13:01:23', 'cliente2@pacifico.com', '$2y$12$tiyUGQgIwa/e78z3szhoH.YhfjLcKtvt4U50m/Cx.wiRt0KSGxHA6'),
 (3, 'Yoshiro', 'Lopez Palomino', 23, 'MASCULINO', 'Av. Leon Velarde', 987654931, 82752789, 75206433, '2020-07-07 13:01:23', 'cliente3@pacifico.com', '$2y$12$8FhJMtt86wqvFMdF2qubKeat9whclp2A5CkKHqpcDnghzUQKUWcWy'),
 (4, 'Christian', 'Perez Gomez', 21, 'MASCULINO', 'Av. Leon Velarde', 987652931, 82753789, 75206233, '2020-07-07 13:01:23', 'empleado1@pacifico.com', '$2y$12$UHXfc9g0B6hXZ365Te30nuMXNAUD/wL0GnsSTH4kGH3IM3L2m1V4K'),
 (5, 'Henrri', 'Ortega Quiñones', 29, 'MASCULINO', 'Av. Leon Velarde', 987652991, 82753719, 75206237, '2020-07-07 13:01:23', 'empleado2@pacifico.com', '$2y$12$UaIMR4O0SPmo.ctEAQKtdeSwb3Rii6MR7hdRdjwA2rUpC2Jv.C2wC'),
@@ -661,7 +663,8 @@ INSERT INTO `producto` (`id_producto`, `cod_producto`, `fecha_ingreso_p`, `cant_
 (7, 'ZB-YG', '7/7/2020 15:33:39', 3, 'AGOTADO', 'VIGENTE', 2),
 (8, 'ZB-YL', '7/7/2020 15:33:39', 3, 'AGOTADO', 'NO VIGENTE', 2),
 (9, 'ZB-YNP', '26/8/2020 18:51:32', 10, 'EN STOCK', 'VIGENTE', 2),
-(10, 'ZB-YN', '26/8/2020 18:51:32', 10, 'EN STOCK', 'VIGENTE', 2);
+(10, 'ZB-YN', '26/8/2020 18:51:32', 10, 'EN STOCK', 'VIGENTE', 2),
+(11, 'LC-LG', '2020-09-06 15:32:47', 10, 'EN STOCK', 'NO VIGENTE', 4);
 
 -- --------------------------------------------------------
 
@@ -853,7 +856,8 @@ CREATE TABLE `recarga` (
 INSERT INTO `recarga` (`id_recarga`, `monto_recarga`, `boucher`, `estado_recarga`, `fecha_recarga`, `id_cliente`) VALUES
 (1, 50, 'IMG-RECARGA-C1.JPG', 'COMPLETADO', '7/7/2020 20:12:56', 1),
 (2, 20, 'IMG-RECARGA-C3.JPG', 'COMPLETADO', '8/7/2020 13:13:12', 3),
-(3, 30, 'IMG-RECARGA-C2.JPG', 'PROCESO', '8/7/2020 7:13:12', 2);
+(3, 30, 'IMG-RECARGA-C2.JPG', 'PROCESO', '8/7/2020 7:13:12', 2),
+(4, 15, 'giphy.gif', 'COMPLETADO', '2020-09-06 20:29:01', 2);
 
 -- --------------------------------------------------------
 
@@ -1257,7 +1261,7 @@ ALTER TABLE `almacen`
 -- AUTO_INCREMENT de la tabla `cat_producto`
 --
 ALTER TABLE `cat_producto`
-  MODIFY `id_cat_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_cat_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_trabajador`
@@ -1293,7 +1297,7 @@ ALTER TABLE `dat_cliente`
 -- AUTO_INCREMENT de la tabla `det_producto`
 --
 ALTER TABLE `det_producto`
-  MODIFY `id_det_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_det_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `envio`
@@ -1317,7 +1321,7 @@ ALTER TABLE `persona`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `produc_compra_almacen`
@@ -1341,7 +1345,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `recarga`
 --
 ALTER TABLE `recarga`
-  MODIFY `id_recarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_recarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `repartidor`

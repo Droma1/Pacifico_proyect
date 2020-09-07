@@ -56,24 +56,26 @@ $(document).ready(function(){
                     </div>
                 </div>
 
-                <table class="table table-stripet">
-                    <thead>
-                        <tr>
-                            <th>Foto</th>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="<?php echo $_POST['img'];?>" alt="" style="width:100px;height:100px;"></td>
-                            <td><?php echo $_POST['name'];?></td>
-                            <td>S/. <?php echo $_POST['precio'];?></td>
-                            <td><?php echo $_POST['cantidad'];?></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="col-md-12" style="overflow:auto;">
+                    <table class="table table-stripet">
+                            <thead>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="<?php echo $_POST['img'];?>" alt="" style="width:100px;height:100px;"></td>
+                                    <td><?php echo $_POST['name'];?></td>
+                                    <td>S/. <?php echo $_POST['precio'];?></td>
+                                    <td><?php echo $_POST['cantidad'];?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
                 <br>
                 <div class="table-responsive">
                     <table class="table">
@@ -87,11 +89,13 @@ $(document).ready(function(){
                 <div class="col-md-12">
                     <form action="formularioAjax" method="post">
                         <div class="row">
-                            <input type="text" name="cod_cliente" value="<?php echo $date['11'];?>" id="">
-                            <input type="text" name="monto_c" value="<?php echo $_POST['precio']*$_POST['cantidad'];?>" id="">
-                            <input type="text" name="fecha_c" value="<?php echo date('Y-m-d H:i:s');?>" id="">
-                            <input type="text" name="cant" value="<?php echo $_POST['cantidad'];?>">
-                            <input type="text" name="cod_producto" value="<?php echo $_POST['cod'];?>">
+                            <div style="display:none;">
+                                <input type="text" name="cod_cliente" value="<?php echo $date['11'];?>" id="">
+                                <input type="text" name="monto_c" value="<?php echo $_POST['precio']*$_POST['cantidad'];?>" id="">
+                                <input type="text" name="fecha_c" value="<?php echo date('Y-m-d H:i:s');?>" id="">
+                                <input type="text" name="cant" value="<?php echo $_POST['cantidad'];?>">
+                                <input type="text" name="cod_producto" value="<?php echo $_POST['cod'];?>">
+                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <input type="submit" class="btn btn-outline-success rounded-0" value="Realizar Compra">
