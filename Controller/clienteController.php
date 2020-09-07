@@ -7,6 +7,94 @@
 
     class clienteController extends clienteModel{
 
+        public function comprar_lista(){
+
+            $saldo_cliente = $_POST['saldo_cliente'];
+            $cod_cli = $_POST['cod_cliente'];
+            $monto_t = $_POST['precio_subtotal'];
+            $objeto_lista = $_POST['datos'];
+
+            $num = count(json_decode($objeto_lista));
+            //echo $num;
+            //echo var_dump(json_decode($objeto_lista));
+            $obj = (array) json_decode($objeto_lista);
+            //$obj2 = (array) $obj[1];
+            //echo var_dump($obj2["precio"]);
+            //echo var_dump($obj[1]);
+            //$asd = mainModel::clear_string($obj2["id"]);
+            $contador = 0;
+            //echo $saldo_cliente;
+            if($saldo_cliente > $monto_t){
+                $dato_c = [
+                    "codigo" => $cod_cli,
+                    "fecha" => date('Y-m-d H:i:s'),
+                    "monto" => $monto_t,
+                    "saldo" => $saldo_cliente
+                ];
+                $id_compra = clienteModel::comprar_orden_model($dato_c);
+
+                if($id_compra->rowCount()>0){
+                    $id_comp = (array) $id_compra->fetch();
+                    //echo var_dump($id_comp);
+                    $id__ = $id_comp[0];
+                    $id_r = mainModel::consulta_simple("select id_comp_c from compras_cliente where id_cliente = ".$id__." order by id_comp_c desc limit 1;");
+                    $asdd = (array) $id_r->fetch();
+                    echo $asdd[0];
+                    while($contador<$num){
+                        $obj2 = (array) $obj[$contador];
+                        $codigo_pro = mainModel::clear_string($obj2["id"]);
+                        $precio = mainModel::clear_string($obj2["precio"]);
+                        $cantidad = mainModel::clear_string($obj2["cantidad"]);
+
+                        $dato_li = [
+                            "cod_pro" => $codigo_pro,
+                            "precio" => $precio,
+                            "cantidad" => $cantidad,
+                            "id_compra" => $asdd[0]
+                        ];
+                        $resulta = clienteModel::comprar_lista_model($dato_li);
+                        if($resulta->rowCount()>0){
+                            $alerta = [
+                                "Alerta" => "simple",
+                                "titulo" => "Compra Exitosa!",
+                                "texto" => "Compra Exitosa del producto: ".$codigo_pro." ...",
+                                "tipo" => "Completo!",
+                                "clase" => "success"
+                            ];
+                        }else{
+                            $alerta = [
+                                "Alerta" => "simple",
+                                "titulo" => "Error al Comprar!",
+                                "texto" => "No se pudo completar la compra del producto: ".$codigo_pro." ...",
+                                "tipo" => "Error!",
+                                "clase" => "danger"
+                            ]; 
+                        }
+                        $contador++;
+
+                    }
+                }else{
+                    $alerta = [
+                        "Alerta" => "simple",
+                        "titulo" => "Problemas del sistema!",
+                        "texto" => "No se pudo completar su compra...",
+                        "tipo" => "Error!",
+                        "clase" => "danger"
+                    ];
+                }
+            }else{
+                $alerta = [
+                    "Alerta" => "simple",
+                    "titulo" => "Problemas en la compra!",
+                    "texto" => "Su saldo actual no es suficiente para realizar compras, se le recomienda realizar una recarga...",
+                    "tipo" => "Advertencia!",
+                    "clase" => "warning"
+                ];
+            }
+            
+            return mainModel::alerts($alerta);
+        }
+
         public function comprar(){
             $cod_cliente = $_POST['cod_cliente'];
             $saldo_c = $_POST['saldo_c'];

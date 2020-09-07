@@ -35,13 +35,6 @@ class Carrito{
         }else{
             this.insertaCarrito(infoProducto);
         }
-        //console.log(productosLS);
-        //if(productosLS === infoProducto.id){
-           // productosLS.cantidad++;
-            //this.guardarProductosLocalStorage(productosLS);
-        //}else{
-            //this.insertaCarrito(infoProducto);
-        //}
     }
     insertaCarrito(producto){
         const row = document.createElement('tr');

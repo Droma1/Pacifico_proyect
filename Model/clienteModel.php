@@ -6,6 +6,29 @@
     }
     class clienteModel extends mainModel{
 
+        protected function comprar_orden_model($datos){
+            $sql = mainModel::conectar()->prepare("call compra_new(:codigo,:fecha,:monto,:saldo);");
+            $sql->bindParam(":codigo",$datos['codigo']);
+            $sql->bindParam(":fecha",$datos['fecha']);
+            $sql->bindParam(":monto",$datos['monto']);
+            $sql->bindParam(":saldo",$datos['saldo']);
+            //echo $dato
+            $sql->execute();
+
+            return $sql;
+        }
+        protected function comprar_lista_model($datos){
+            $sql = mainModel::conectar()->prepare("call prod_compra(:codigo,:precio,:cantidad,:id_comp);");
+            $sql->bindParam(":codigo",$datos['cod_pro']);
+            $sql->bindParam(":precio",$datos['precio']);
+            $sql->bindParam(":cantidad",$datos['cantidad']);
+            $sql->bindParam(":id_comp",$datos['id_compra']);
+
+            $sql->execute();
+
+            return $sql;
+        }
+
         protected function comprar_model($datos){
             $sql = mainModel::conectar()->prepare("call registrar_compra(:codigo_c,:codigo_p,:saldo,:cantidad,:precio_p,:metodo,:monto,:fecha);");
             $sql->bindParam(":codigo_c",$datos['codigo_cliente']);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-09-2020 a las 02:22:57
+-- Tiempo de generación: 07-09-2020 a las 08:42:45
 -- Versión del servidor: 10.3.16-MariaDB
 -- Versión de PHP: 7.3.6
 
@@ -26,6 +26,59 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `compra_new` (IN `codigo` VARCHAR(20), IN `fecha` VARCHAR(30), IN `monto_c` DOUBLE, IN `saldo_a` DOUBLE)  BEGIN
+
+set @id_c = 0;
+set @cod_p = '';
+
+select @id_c := id_cliente from cliente where cod_cliente = codigo;
+if exists(select @cod_p := id_comp_c from compras_cliente where id_cliente = @id_c order by id_comp_c desc limit 1)then
+	select @cod_p := id_comp_c from compras_cliente where id_cliente = @id_c order by id_comp_c desc limit 1;
+else
+	set @cod_p = '1';
+end if;
+
+insert into compras_cliente(cod_compra,llave_compra,estado_compra,monto_compra,fecha_compra,id_cliente)
+		values (concat('CMP-N',@cod_p+1),concat('NPMC',@cod_p,'ALL'),'PROCESO',monto_c,fecha,@id_c);
+select LAST_INSERT_ID() INTO @id_p;
+insert into pago(fecha_pago,saldo_p,metodo,monto_p,id_comp_c)
+		values(fecha,saldo_a,'EN EFECTIVO',monto_c,@id_p);
+update cliente set saldo = (saldo_a - monto_c) where cod_cliente = codigo;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `prod_compra` (IN `cod_pro` VARCHAR(50), IN `precio` DOUBLE, IN `cantidad_comp` DOUBLE, IN `id_comp` INT)  BEGIN
+set @id_p = 0;
+
+select @id_p := id_producto from producto where cod_producto = cod_pro;
+insert into produc_compra_client(id_comp_c,id_producto,cant_producto_c,precio_producto_c)
+		values(id_comp,@id_p,cantidad_comp,precio);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `registrar_compra` (IN `codigo_c` VARCHAR(20), IN `codigo_p` VARCHAR(10), IN `saldo_` DOUBLE, IN `cantidad` INT(11), IN `precio_p` DOUBLE, IN `metodo` VARCHAR(50), IN `monto_p_` DOUBLE, IN `fecha` VARCHAR(30))  BEGIN
+set @id_c = 0;
+set @cod_p = '';
+
+select @id_c := id_cliente from cliente where cod_cliente = codigo_c;
+if exists(select @cod_p := id_comp_c from compras_cliente where id_cliente = @id_c order by id_comp_c desc limit 1)then
+	select @cod_p := id_comp_c from compras_cliente where id_cliente = @id_c order by id_comp_c desc limit 1;
+else
+	set @cod_p = '1';
+end if;
+insert into compras_cliente(cod_compra,llave_compra,estado_compra,monto_compra,fecha_compra,id_cliente)
+		values (concat('CMP-N',@cod_p+1),concat('NPMC',@cod_p,'ALL'),'PROCESO',monto_p_,fecha,@id_c);
+select LAST_INSERT_ID() INTO @id_p;
+insert into pago(fecha_pago,saldo_p,metodo,monto_p,id_comp_c)
+		values(fecha,saldo_,'EN EFECTIVO',monto_p_,@id_p);
+set @id_pr = 0;
+select @id_pr := id_producto from producto where cod_producto = codigo_p;
+insert into produc_compra_client(id_comp_c,id_producto,cant_producto_c,precio_producto_c)
+		values(@id_p,@id_pr,cantidad,precio_p);
+        
+update cliente set saldo = saldo_ where cod_cliente = codigo_c;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `registro_clientes` (IN `nombres_` VARCHAR(50), IN `apellidos_` VARCHAR(50), IN `edad_` INT(2), IN `sexo_` VARCHAR(10), IN `direccion_` VARCHAR(100), IN `cel_` INT(9), IN `tel_` INT(10), IN `dni_` INT(8), IN `fecha_` VARCHAR(50), IN `usuario_` VARCHAR(50), IN `clave_` VARCHAR(80), IN `estado_cliente_` VARCHAR(20))  begin
 insert into persona(nombres_p,
 apellidos_p,
@@ -229,7 +282,7 @@ CREATE TABLE `cliente` (
 
 INSERT INTO `cliente` (`id_cliente`, `cod_cliente`, `saldo`, `cat_cliente`, `estado_cliente`, `id_persona`) VALUES
 (1, 'CL1', 50, 'CL1-A', 'HABILITADO', 1),
-(2, 'CL2', 15, 'CL1-B', 'HABILITADO', 2),
+(2, 'CL2', 160.54999999999998, 'CL1-B', 'HABILITADO', 2),
 (3, 'CL3', 20, 'CL1-C', 'HABILITADO', 3),
 (4, 'CL8', 0, NULL, 'HABILITADO', 8),
 (5, 'CL9', 0, NULL, 'HABILITADO', 9),
@@ -299,7 +352,12 @@ CREATE TABLE `compras_cliente` (
 
 INSERT INTO `compras_cliente` (`id_comp_c`, `cod_compra`, `llave_compra`, `estado_compra`, `monto_compra`, `fecha_compra`, `id_cliente`) VALUES
 (1, 'CMP-N1', 'NPMCA1ALL', 'PROCESO', 5.8, '7/7/2020 19:24:59', 2),
-(2, 'CMP-N2', 'NPMCB2BLL', 'COMPLETADO', 4.5, '7/7/2020 20:30:00', 2);
+(2, 'CMP-N2', 'NPMCB2BLL', 'COMPLETADO', 4.5, '7/7/2020 20:30:00', 2),
+(3, 'CMP-N3', 'NPMC2ALL', 'PROCESO', 4.65, '2020-09-07 02:07:54', 2),
+(4, 'CMP-N4', 'NPMC3ALL', 'PROCESO', 5, '2020-09-07 02:12:26', 2),
+(5, 'CMP-N5', 'NPMC4ALL', 'PROCESO', 0.6, '2020-09-07 02:17:54', 2),
+(6, 'CMP-N6', 'NPMC5ALL', 'PROCESO', 0.6, '2020-09-07 02:48:06', 2),
+(32, 'CMP-N7', 'NPMC6ALL', 'PROCESO', 21.8, '2020-09-07 06:40:51', 2);
 
 -- --------------------------------------------------------
 
@@ -461,7 +519,12 @@ CREATE TABLE `pago` (
 --
 
 INSERT INTO `pago` (`id_pago`, `fecha_pago`, `saldo_p`, `metodo`, `monto_p`, `id_comp_c`) VALUES
-(2, '7/7/2020 19:30:17', 0, 'EN EFECTIVO', 4.5, 2);
+(2, '7/7/2020 19:30:17', 0, 'EN EFECTIVO', 4.5, 2),
+(3, '2020-09-07 02:07:54', 10.35, 'EN EFECTIVO', NULL, 3),
+(4, '2020-09-07 02:12:26', 5.35, 'EN EFECTIVO', NULL, 4),
+(5, '2020-09-07 02:17:54', 4.75, 'EN EFECTIVO', 0.6, 5),
+(6, '2020-09-07 02:48:06', 4.15, 'EN EFECTIVO', 0.6, 6),
+(22, '2020-09-07 06:40:51', 182.35, 'EN EFECTIVO', 21.8, 32);
 
 -- --------------------------------------------------------
 
@@ -659,11 +722,11 @@ CREATE TABLE `producto` (
 
 INSERT INTO `producto` (`id_producto`, `cod_producto`, `fecha_ingreso_p`, `cant_producto`, `estado_producto`, `estado_venta`, `id_cat_producto`) VALUES
 (5, 'CCP-A1', '7/7/2020 15:33:39', 3, 'EN STOCK', 'NO VIGENTE', 1),
-(6, 'APL-AS', '7/7/2020 15:33:39', 3, 'EN STOCK', 'VIGENTE', 3),
-(7, 'ZB-YG', '7/7/2020 15:33:39', 3, 'AGOTADO', 'VIGENTE', 2),
-(8, 'ZB-YL', '7/7/2020 15:33:39', 3, 'AGOTADO', 'NO VIGENTE', 2),
-(9, 'ZB-YNP', '26/8/2020 18:51:32', 10, 'EN STOCK', 'VIGENTE', 2),
-(10, 'ZB-YN', '26/8/2020 18:51:32', 10, 'EN STOCK', 'VIGENTE', 2),
+(6, 'APL-AS', '7/7/2020 15:33:39', 2, 'EN STOCK', 'VIGENTE', 3),
+(7, 'ZB-YG', '7/7/2020 15:33:39', 1, 'AGOTADO', 'VIGENTE', 2),
+(8, 'ZB-YL', '7/7/2020 15:33:39', 1, 'AGOTADO', 'NO VIGENTE', 2),
+(9, 'ZB-YNP', '26/8/2020 18:51:32', 1, 'EN STOCK', 'VIGENTE', 2),
+(10, 'ZB-YN', '26/8/2020 18:51:32', 1, 'EN STOCK', 'VIGENTE', 2),
 (11, 'LC-LG', '2020-09-06 15:32:47', 10, 'EN STOCK', 'NO VIGENTE', 4);
 
 -- --------------------------------------------------------
@@ -792,7 +855,15 @@ CREATE TABLE `produc_compra_client` (
 INSERT INTO `produc_compra_client` (`id_produc_comp`, `id_comp_c`, `id_producto`, `cant_producto_c`, `precio_producto_c`) VALUES
 (1, 1, 7, 1, 4.5),
 (2, 1, 8, 1, 1.3),
-(3, 2, 7, 1, 4.5);
+(3, 2, 7, 1, 4.5),
+(4, 3, 6, 1, 4.65),
+(5, 4, 10, 1, 5),
+(6, 5, 9, 1, 0.6),
+(7, 6, 9, 1, 0.6),
+(12, 6, 7, 2, 5),
+(13, 6, 9, 3, 0.6),
+(14, 6, 10, 1, 5),
+(15, 6, 6, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -857,7 +928,8 @@ INSERT INTO `recarga` (`id_recarga`, `monto_recarga`, `boucher`, `estado_recarga
 (1, 50, 'IMG-RECARGA-C1.JPG', 'COMPLETADO', '7/7/2020 20:12:56', 1),
 (2, 20, 'IMG-RECARGA-C3.JPG', 'COMPLETADO', '8/7/2020 13:13:12', 3),
 (3, 30, 'IMG-RECARGA-C2.JPG', 'PROCESO', '8/7/2020 7:13:12', 2),
-(4, 15, 'giphy.gif', 'COMPLETADO', '2020-09-06 20:29:01', 2);
+(4, 15, 'giphy.gif', 'COMPLETADO', '2020-09-06 20:29:01', 2),
+(5, 200, '678927-MLM31767026195_082019-O.png', 'COMPLETADO', '2020-09-07 05:56:10', 2);
 
 -- --------------------------------------------------------
 
@@ -1285,7 +1357,7 @@ ALTER TABLE `compras_almacen`
 -- AUTO_INCREMENT de la tabla `compras_cliente`
 --
 ALTER TABLE `compras_cliente`
-  MODIFY `id_comp_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_comp_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `dat_cliente`
@@ -1309,7 +1381,7 @@ ALTER TABLE `envio`
 -- AUTO_INCREMENT de la tabla `pago`
 --
 ALTER TABLE `pago`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
@@ -1333,7 +1405,7 @@ ALTER TABLE `produc_compra_almacen`
 -- AUTO_INCREMENT de la tabla `produc_compra_client`
 --
 ALTER TABLE `produc_compra_client`
-  MODIFY `id_produc_comp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_produc_comp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
@@ -1345,7 +1417,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `recarga`
 --
 ALTER TABLE `recarga`
-  MODIFY `id_recarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_recarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `repartidor`
