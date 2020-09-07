@@ -192,11 +192,11 @@ $(document).ready(function(){
                                                                             </thead>
                                                                             <tbody>
                                                                                 <?php 
-                                                                                    $productos= $perfil->productos_compras($_SESSION['tipo_user'],$item[3]);
+                                                                                    $productos= $perfil->productos_compras($item[1],$item[3]);
                                                                                     $sub_total = 0;
 
                                                                                     while($p = $productos->fetch()){
-                                                                                        $sub_total = $sub_total + $p[3];
+                                                                                        $sub_total = $sub_total + ($p[3]*$p[2]);
                                                                                  ?>
                                                                                 <tr>
                                                                                     <td><?php echo $p[4]; ?></td>

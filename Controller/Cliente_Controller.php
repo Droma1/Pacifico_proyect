@@ -25,9 +25,9 @@
             public function productos_compras($codigo,$estado){
                 if($estado == "PROCESO"){
                     $productos = mainModel::consulta_simple("select * from lista_compras where estado_compra = '".$estado
-                    ."' and cod_cliente = '".$codigo."';");
+                    ."' and cod_compra = '".$codigo."';");
                 }else{
-                    $productos = mainModel::consulta_simple("select * from lista_compras_c where cod_cliente = '".$codigo."';");
+                    $productos = mainModel::consulta_simple("select * from lista_compras_c where cod_compra = '".$codigo."';");
                 }
                return $productos; 
             }

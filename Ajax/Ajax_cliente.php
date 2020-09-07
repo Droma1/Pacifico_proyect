@@ -7,9 +7,12 @@
         
             echo $insAdmin->edit_cliente();
 
+    }elseif(isset($_POST['saldo_c'])){
+        require_once "../Controller/clienteController.php";
+        $insAdmin = new clienteController();
+        
+            echo $insAdmin->comprar();
     }else{
-        session_start();
-        session_destroy();
         echo '<script>window.location.href="'.SERVERURL.'login/";</script>';
     }
 ?>

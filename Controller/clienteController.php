@@ -7,6 +7,61 @@
 
     class clienteController extends clienteModel{
 
+        public function comprar(){
+            $cod_cliente = $_POST['cod_cliente'];
+            $saldo_c = $_POST['saldo_c'];
+            $monto_c = $_POST['monto_c'];
+            $fecha_c = $_POST['fecha_c'];
+            $cant = $_POST['cant'];
+            $precio_u = $_POST['precio_i'];
+            $cod_prod = $_POST['cod_producto'];
+
+            
+
+            if($saldo_c>0 && $monto_c < $saldo_c){
+                $new_saldo = $saldo_c - $monto_c;
+                $datos_compra = [
+                    "codigo_cliente" => $cod_cliente,
+                    "saldo_cliente" => $new_saldo,
+                    "monto_compra" => $monto_c,
+                    "cod_producto" => $cod_prod,
+                    "cantidad" => $cant,
+                    "metodo" => "EN EFECTIVO",
+                    "precio_u" => $precio_u,
+                    "fecha" => date('Y-m-d H:i:s')
+                ];
+                $sql = clienteModel::comprar_model($datos_compra);
+                if($sql->rowCount()>0){
+                    $alerta = [
+                        "Alerta" => "simple",
+                        "titulo" => "Compra Exitosa!",
+                        "texto" => "Se realió la compra de manera exitosa...",
+                        "tipo" => "Realizado!",
+                        "clase" => "success"
+                    ];
+                }else{
+                    $alerta = [
+                        "Alerta" => "simple",
+                        "titulo" => "Error de Sistema!",
+                        "texto" => "No se pudo completar la compra le pedimos que vuelva a intentar...",
+                        "tipo" => "compra fallida!",
+                        "clase" => "danger"
+                    ];
+                }
+                
+            }else{
+                $alerta = [
+                    "Alerta" => "simple",
+                    "titulo" => "Problemas!",
+                    "texto" => "Usted no cuenta con saldo suficiente para realizar compras le recomendamos realizar una recarga...",
+                    "tipo" => "compra fallida!",
+                    "clase" => "warning"
+                ];
+            }
+
+            return mainModel::alerts($alerta);
+        }
+
         public function recarga_cliente(){
             $codigo = mainModel::clear_string($_POST['cod_cliente']);
             $monto = mainModel::clear_string($_POST['monto']);

@@ -87,10 +87,12 @@ $(document).ready(function(){
                 </div>
                 <hr>
                 <div class="col-md-12">
-                    <form action="formularioAjax" method="post">
+                <form action="<?php echo SERVERURL; ?>Ajax/Ajax_cliente.php"  class="formAjax" method="post">
                         <div class="row">
                             <div style="display:none;">
                                 <input type="text" name="cod_cliente" value="<?php echo $date['11'];?>" id="">
+                                <input type="text" name="saldo_c" value="<?php echo $date['12'];?>">
+                                <input type="text" name="precio_i" value="<?php echo $_POST['precio']?>">
                                 <input type="text" name="monto_c" value="<?php echo $_POST['precio']*$_POST['cantidad'];?>" id="">
                                 <input type="text" name="fecha_c" value="<?php echo date('Y-m-d H:i:s');?>" id="">
                                 <input type="text" name="cant" value="<?php echo $_POST['cantidad'];?>">

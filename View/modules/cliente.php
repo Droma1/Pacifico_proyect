@@ -95,7 +95,12 @@
 										<br>
 										<div class="col-md-6">
 											<div class="form-group">
-												<a href="Comprar" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Compra</a>
+												<a href="listaCompra" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Compra</a>
+												<script>
+													$("#procesar-pedido").click(function(){
+														window.location="http://localhost/Pacifico/listaCompra";
+													});
+												</script>
 											</div>
 										</div>
 									</div>

@@ -5,6 +5,21 @@
         require_once "./Config/main.php";
     }
     class clienteModel extends mainModel{
+
+        protected function comprar_model($datos){
+            $sql = mainModel::conectar()->prepare("call registrar_compra(:codigo_c,:codigo_p,:saldo,:cantidad,:precio_p,:metodo,:monto,:fecha);");
+            $sql->bindParam(":codigo_c",$datos['codigo_cliente']);
+            $sql->bindParam(":codigo_p",$datos['cod_producto']);
+            $sql->bindParam(":saldo",$datos['saldo_cliente']);
+            $sql->bindParam(":cantidad",$datos['cantidad']);
+            $sql->bindParam(":precio_p",$datos['precio_u']);
+            $sql->bindParam(":metodo",$datos['metodo']);
+            $sql->bindParam(":monto",$datos['monto_compra']);
+            $sql->bindParam(":fecha",$datos['fecha']);
+            //echo var_dump($datos);
+            $sql->execute();
+            return $sql;
+        }
         protected function recarga_cliente_model($datos){
             $cod = $datos["codigo"];
             $sql = mainModel::consulta_simple("select id_cliente from cliente where cod_cliente = '".$cod."';");
