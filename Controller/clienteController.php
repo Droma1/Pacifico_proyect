@@ -335,7 +335,7 @@
                                 "Alerta" => "simple",
                                 "titulo" => "Cliente registrado",
                                 "texto" => "El cliente se registro con exito en el sistema",
-                                "tipo" => "error",
+                                "tipo" => "Completado",
                                 "clase" => "success"
                             ];
                         }else{

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-09-2020 a las 08:42:45
+-- Tiempo de generación: 07-09-2020 a las 23:14:41
 -- Versión del servidor: 10.3.16-MariaDB
 -- Versión de PHP: 7.3.6
 
@@ -95,6 +95,8 @@ nombres_,apellidos_,edad_,sexo_,direccion_,cel_,tel_,dni_,fecha_,usuario_,clave_
 select LAST_INSERT_ID() INTO @id_p;
 insert into cliente(cod_cliente,saldo,estado_cliente,id_persona) 
 values(concat("CL",cast(@id_p as char)),0.0,estado_cliente_,@id_p);
+select LAST_INSERT_ID() INTO @id_p_2;
+insert into dat_cliente(distrito_c,provincia_c,departamento_c,id_cliente) values('TAMBOPATA','TAMBOPATA','MADRE DE DIOS',@id_p_2);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `registro_producto` (IN `cod_cat` VARCHAR(50), IN `nombre_cat` VARCHAR(50), IN `descrip_cat` VARCHAR(500), IN `cod_product` VARCHAR(10), IN `fecha_ing_p` VARCHAR(30), IN `cant_produc` INT(11), IN `est_p` VARCHAR(30), IN `est_v` VARCHAR(10), IN `nom_p` VARCHAR(100), IN `descrip_p` VARCHAR(1000), IN `altura_p` DOUBLE, IN `ancho_p` DOUBLE, IN `precio_p` DOUBLE, IN `precio_p_a` DOUBLE, IN `color_p` VARCHAR(50), IN `foto1_` VARCHAR(100), IN `foto2_` VARCHAR(100), IN `foto3_` VARCHAR(100), IN `descu_p` DOUBLE, IN `fecha_ini` VARCHAR(30), IN `fecha_fin` VARCHAR(30), IN `est_cat` INT)  begin
@@ -175,7 +177,10 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id_admi`, `titulo`, `cod_admin`, `id_persona`) VALUES
-(1, 'Ing.', 'AD-P-1', 7);
+(1, 'Ing.', 'AD-P-1', 7),
+(3, 'resagado', 'AD-P-3', 19),
+(4, 'resagado', 'AD-P-2', 20),
+(6, 'resagado', 'AD-P-5', 18);
 
 -- --------------------------------------------------------
 
@@ -237,7 +242,10 @@ INSERT INTO `cat_producto` (`id_cat_producto`, `cod_categoria`, `nombre_cat_prod
 (1, 'CCP', 'Conservas y Comida Preparada', 'Descubra la gran variedad, calidad y facilidad de los preparados ecológicos. Donde la rapidez no está reñida con la calidad.'),
 (2, 'ZB', 'Zumos y Bebidas', 'Zumos elaborados de forma artesana que garantiza la máxima calidad y nos permite la conservación de todo su sabor y valor nutritivo. Zumos que aportan un mayor número de vitaminas naturales.\nDescubre la increíble calidad de los vinos ecológicos.'),
 (3, 'APL', 'Aceite, Pasta y Legumbres', 'Aceites de altísima calidad, en aroma y sabor; de las variedades hojiblanca y alberquina, obtenidos de la extracción en frio utilizando únicamente procesos mecánicos (eco).'),
-(4, 'LC', 'Lacteos', 'productos hechos a partir de la leche o que derivan de la misma, como ser queso, yogurt, manteca, crema de leche');
+(4, 'LC', 'Lacteos', 'productos hechos a partir de la leche o que derivan de la misma, como ser queso, yogurt, manteca, crema de leche'),
+(5, 'CYE', 'Carnes y Embutidos', 'Carnes y Embutidos'),
+(6, 'M-G-P', 'Mascotas', 'productos para animales domÃ©sticos'),
+(9, 'CP-B', 'Cuidado Personal y Belleza', 'producto de belleza y cuidado');
 
 -- --------------------------------------------------------
 
@@ -281,8 +289,8 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`id_cliente`, `cod_cliente`, `saldo`, `cat_cliente`, `estado_cliente`, `id_persona`) VALUES
-(1, 'CL1', 50, 'CL1-A', 'HABILITADO', 1),
-(2, 'CL2', 160.54999999999998, 'CL1-B', 'HABILITADO', 2),
+(1, 'CL1', 49.4, 'CL1-A', 'HABILITADO', 1),
+(2, 'CL2', 838.4599999999998, 'CL1-B', 'HABILITADO', 2),
 (3, 'CL3', 20, 'CL1-C', 'HABILITADO', 3),
 (4, 'CL8', 0, NULL, 'HABILITADO', 8),
 (5, 'CL9', 0, NULL, 'HABILITADO', 9),
@@ -291,7 +299,11 @@ INSERT INTO `cliente` (`id_cliente`, `cod_cliente`, `saldo`, `cat_cliente`, `est
 (8, 'CL13', 0, NULL, 'HABILITADO', 13),
 (9, 'CL14', 0, NULL, 'HABILITADO', 14),
 (10, 'CL15', 0, NULL, 'HABILITADO', 15),
-(11, 'CL16', 0, NULL, 'HABILITADO', 16);
+(11, 'CL16', 0, NULL, 'HABILITADO', 16),
+(12, 'CL21', 0, NULL, 'HABILITADO', 21),
+(13, 'CL22', 0, NULL, 'HABILITADO', 22),
+(14, 'CL23', 0, NULL, 'HABILITADO', 23),
+(15, 'CL24', 0, NULL, 'HABILITADO', 24);
 
 -- --------------------------------------------------------
 
@@ -357,7 +369,12 @@ INSERT INTO `compras_cliente` (`id_comp_c`, `cod_compra`, `llave_compra`, `estad
 (4, 'CMP-N4', 'NPMC3ALL', 'PROCESO', 5, '2020-09-07 02:12:26', 2),
 (5, 'CMP-N5', 'NPMC4ALL', 'PROCESO', 0.6, '2020-09-07 02:17:54', 2),
 (6, 'CMP-N6', 'NPMC5ALL', 'PROCESO', 0.6, '2020-09-07 02:48:06', 2),
-(32, 'CMP-N7', 'NPMC6ALL', 'PROCESO', 21.8, '2020-09-07 06:40:51', 2);
+(32, 'CMP-N7', 'NPMC6ALL', 'PROCESO', 21.8, '2020-09-07 06:40:51', 2),
+(33, 'CMP-N2', 'NPMC1ALL', 'PROCESO', 0.6, '2020-09-07 16:37:21', 1),
+(34, 'CMP-N33', 'NPMC32ALL', 'PROCESO', 23.7, '2020-09-07 15:16:05', 2),
+(35, 'CMP-N35', 'NPMC34ALL', 'PROCESO', 10.9, '2020-09-07 15:18:32', 2),
+(36, 'CMP-N36', 'NPMC35ALL', 'PROCESO', 203.09, '2020-09-07 15:54:34', 2),
+(37, 'CMP-N37', 'NPMC36ALL', 'PROCESO', 84.4, '2020-09-07 16:11:29', 2);
 
 -- --------------------------------------------------------
 
@@ -402,7 +419,8 @@ CREATE TABLE `dat_cliente` (
 INSERT INTO `dat_cliente` (`id_dat_cliente`, `distrito_c`, `provincia_c`, `departamento_c`, `id_cliente`) VALUES
 (1, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 1),
 (2, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 2),
-(3, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 3);
+(3, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 3),
+(4, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 15);
 
 -- --------------------------------------------------------
 
@@ -433,13 +451,48 @@ CREATE TABLE `det_producto` (
 --
 
 INSERT INTO `det_producto` (`id_det_producto`, `nombre_producto`, `descripcion_producto`, `altura_producto`, `anchura_producto`, `precio_producto`, `precio_producto_almacen`, `color_producto`, `foto1`, `foto2`, `foto3`, `descuento_producto`, `fecha_ini_descuento`, `fecha_fin_descuento`, `id_producto`) VALUES
-(1, 'Yogurt Gloria 1L', 'Yogurt de fresas y leche gloria de 1L. envace plastico,bottela ecoamigable', 22.5, 5.4, 5, 0, 'Blanco', '', '', '', 0.05, '2020-07-07 18:39:04', '2020-07-09 18:39:04', 7),
+(1, 'Yogurt Gloria 1L', 'Yogurt de fresas y leche gloria de 1L. envace plastico,bottela ecoamigable', 22.5, 5.4, 5, 0, 'Blanco', 'pd2.jpg', '', '', 0.05, '2020-07-07 18:39:04', '2020-07-09 18:39:04', 7),
 (2, 'Yogurt Live 500ml', 'Yogurt de leche Live de 500ml. envace plastico,bottela ecoamigable', 10, 4.9, 1.5, 0, 'Blanco', '', '', '', 0.2, '2020-07-07 18:39:04', '2020-09-07 18:39:04', 8),
-(3, 'Aceite Soya 1L', 'Aceite vegetal ára frituras y ensaladas Soya  de 1L amigable con el paladar', 20, 6, 5, 0, 'Blanco', '', '', '', 0.07, '2020-07-07 18:39:04', '2020-09-07 18:39:04', 6),
-(4, 'Atun A1', 'Atun enlatado y triturado para ensaladas, concerva enlatada de 200g.', 3, 10, 3, 0, 'Blanco', '', '', '', 0, '2020-07-07 18:39:04', '2020-09-07 18:39:04', 5),
-(5, 'Yogur Nestle 125g.', 'Yogur envasado portátil ideal para refrigerios y combinarlos con cereales', 4, 125, 0.6, 0.4, 'Cleste', '', '', '', NULL, NULL, NULL, 9),
-(6, 'Yogur Nestle 1L', 'Yogur de leche El clásico Yogur Natural Nestlé disponible en formato ahorro.', 8, 125, 5, 4.7, 'Azul,Blanco', '', '', '', NULL, NULL, NULL, 10),
-(9, 'Leche Gloria 400g', 'Es una leche evaporada enriquecida con vitaminas A y D fuente natural de proteínas y minerales como el calcio y el fósforo. Las proteínas son nutrientes que promueven el crecimiento y contribuyen a conservar la masa muscular y los minerales calcio y fósforo ayudan a mantener los huesos y dientes.', 0, 0, 3.2, 2.8, 'Azul', '3P.jpg', '2P.jpg', '1P.jpg', 0, '', '', 11);
+(3, 'Aceite Soya 1L', 'Aceite vegetal ára frituras y ensaladas Soya  de 1L amigable con el paladar', 20, 6, 5, 0, 'Blanco', 'soya.jpeg', '', '', 0.07, '2020-07-07 18:39:04', '2020-09-07 18:39:04', 6),
+(4, 'Atun A1', 'Atun enlatado y triturado para ensaladas, concerva enlatada de 200g.', 3, 10, 3, 0, 'Blanco', 'a1.jpg', '', '', 0, '2020-07-07 18:39:04', '2020-09-07 18:39:04', 5),
+(5, 'Yogur Nestle 125g.', 'Yogur envasado portátil ideal para refrigerios y combinarlos con cereales', 4, 125, 0.6, 0.4, 'Cleste', 'ynl.jpg', '', '', NULL, NULL, NULL, 9),
+(6, 'Yogur Nestle 1L', 'Yogur de leche El clásico Yogur Natural Nestlé disponible en formato ahorro.', 8, 125, 5, 4.7, 'Azul,Blanco', 'yn.png', '', '', NULL, NULL, NULL, 10),
+(9, 'Leche Gloria 400g', 'Es una leche evaporada enriquecida con vitaminas A y D fuente natural de proteínas y minerales como el calcio y el fósforo. Las proteínas son nutrientes que promueven el crecimiento y contribuyen a conservar la masa muscular y los minerales calcio y fósforo ayudan a mantener los huesos y dientes.', 0, 0, 3.2, 2.8, 'Azul', '3P.jpg', '2P.jpg', '1P.jpg', 0, '', '', 11),
+(13, 'SANTIAGO QUEIROLO-BORGOÃ‘A-750ML', 'De un ligero color rojo violeta. En nariz trae muchos recuerdos afrutados a frutos rojos, frambuesa, higos y especialmente a la uva que da origen al vino. En boca presenta una ligera acidez, buen dulzor y vuelve a traer la fruta madura que se percibe en nariz.', 0, 0, 18, 12, '', 'Bot-SQ-Vino-Dulce-BorgoÃ±a.jpg', 'borgona.png', 'inbound7211776017948958058.jpg', 0, '', '', 15),
+(16, 'Frejoles Negros en Conserva', 'Son de tamaÃ±o regular y ovalados de color negro. En AmÃ©rica Latina se consumen bastante, especialmente en Cuba.', 0, 0, 7.9, 5.9, 'Plata', '41502792.jpg', '41502792.jpg', '41502792.jpg', 0, '2020-11-07', '2020-11-08', 18),
+(17, 'SANTIAGO QUEIROLO-MAGDALENA-750ML', 'De color rojo oscuro. En nariz trae recuerdos a ciruela, guindÃ³n, frutos rojos ligeramente maduros. En boca presenta una interesante complejidad, balanceando lo afrutado, lo complejo y lo dulce.', 0, 0, 18, 12, '', '927122.jpg', 'magdalena.png', 'vino-santiago-queirolo-MAGADALENA-30.00.jpg', 0.3, '2020-09-07', '2020-09-13', 19),
+(18, 'Sopa caliente', 'Sopa caliente cremosita elaborada a base de pollo, leche y verduras. 1 2 3 4 5', 0, 0, 14.5, 10.9, 'ES DE ELLA', '51cwsoU61+L._AC_.jpg', '51cwsoU61+L._AC_.jpg', '51cwsoU61+L._AC_.jpg', 0.2, '2020-11-07', '2020-11-08', 20),
+(19, 'FRUGOS DEL VALLE DURAZNO-235ML PACK 6 DE UND', 'CaracterÃ­sticas principales:\r\n- Contenido de 235 ml\r\n- Con vitaminas A, C y D\r\n- TamaÃ±o personal\r\n- Sabor: Durazno\r\n- 40% reducida en azÃºcar', 0, 0, 8, 6, '', '41181845.jpg', 'Frugos-Durazno-235-ml-x-24-cajitas.jpg', 'bebida-de-mango-frugos-del-valle-caja-235-ml-pack-de-6-unidades.jpg', 0, '', '', 21),
+(21, 'GASEOSA 2,25ML-PACK', 'CaracterÃ­sticas principales:\r\n- Contenido de 3 litros\r\n- Bebida gasificada\r\n- TamaÃ±o familiar\r\n- Variedad: Original\r\n- Contiene cafeÃ­na', 0, 0, 17, 15, '', 'Gaseosa-Inca-Kola-Pack-2-Botellas-de-225-Litros-c-u-1-7986593.webp', '19166-1540506813.webp', '315845.webp', 0.15, '2020-09-07', '2020-09-10', 23),
+(22, 'GASEOSA COCA COLA-250ML UNID', 'Disfruta mÃ¡s con Coca-Cola, es la bebida refrescante NÂ°1 del mundo', 0, 0, 2.5, 2, '', 'WhatsAppImage2020-05-11at6.10.34PM_grande.jpg', 'cocacola-original-250-x12-piragua.jpg', 'unnamed.jpg', 0, '', '', 24),
+(23, 'Caldo Cocido', 'Sopa de galets: receta tradicional para un primer plato de fiesta ... QuÃ© tipo de carnes, huesos y garbanzos debe llevar un cocido perfecto.', 0, 0, 14.5, 10.9, 'ES DE ELLA', '@IMG_3944.jpg', '@IMG_3944.jpg', '@IMG_3944.jpg', 0.2, '2020-11-07', '2020-11-08', 25),
+(24, 'FRUGOS DEL VALLE DURAZNO-286ML UND', 'Exquisito frugo de durazno', 0, 0, 2.1, 1.8, '', 'FRUGO1.jpg', '20100324.webp', 'FRUGO1.jpg', 0, '', '', 26),
+(25, 'Pizzas y Platos preparados', 'Pizza, lasaÃ±a, fabada, los productos precocinados mas vendidos. La comida ... La pizza continÃºa siendo el plato preferido de los preparados.', 0, 0, 12, 9.9, 'VARIADO', 'Informe-Platos-Preparados-Escaparate-Nestle3-Tecnifood-Tech-Press-2016.jpg', 'Informe-Platos-Preparados-Escaparate-Nestle3-Tecnifood-Tech-Press-2016.jpg', 'Informe-Platos-Preparados-Escaparate-Nestle3-Tecnifood-Tech-Press-2016.jpg', 0.3, '2020-11-07', '2020-11-08', 27),
+(26, 'Pizzas y Platos preparados', 'Pizza, lasaÃ±a, fabada, los productos precocinados mas vendidos. La comida ... La pizza continÃºa siendo el plato preferido de los preparados.', 0, 0, 12, 9.9, 'VARIADO', 'Informe-Platos-Preparados-Escaparate-Nestle3-Tecnifood-Tech-Press-2016.jpg', 'Informe-Platos-Preparados-Escaparate-Nestle3-Tecnifood-Tech-Press-2016.jpg', 'Informe-Platos-Preparados-Escaparate-Nestle3-Tecnifood-Tech-Press-2016.jpg', 0, '', '', 28),
+(27, 'FRUGOS DEL VALLE MANZANA-1,5L UND', 'Exquisito frugo de Manzana', 0, 0, 3.5, 2.5, '', 'MANZANA.jpg', 'MANZANA.jpg', 'MANZANA.jpg', 0, '', '', 29),
+(28, 'FRUGOS DEL VALLE DURAZNO-1,5L UND', 'Exquisito frugo de durazno', 0, 0, 3.5, 3.5, '', 'DURAZNO.jpg', 'DURAZNO.jpg', 'DURAZNO.jpg', 0, '', '', 30),
+(29, 'Durazno Enlatado', 'Ricas y deliciosos durazno en conserva', 0, 0, 4.9, 3.2, 'amarillo', '53771.jpg', '53771.jpg', '53771.jpg', 0.07, '2020-11-07', '2020-11-08', 31),
+(30, 'Whisky JOHNNIE WALKER Green Label Botella 750ml', 'Exquisito Wisky', 0, 0, 100, 90, '', 'JohnnieWalker-BlackLabell-750ml-HI.jpg', 'whisky-j-walker-etiqueta-negra-black-750-ml-licor-gift-D_NQ_NP_758409-MPE32682624297_102019-F.jpg', '', 0, '', '', 32),
+(31, 'Portola', 'Rico p :V', 0, 0, 4.5, 2.9, '', 'descarga.jpg', 'descarga.jpg', 'descarga.jpg', 0.1, '2020-11-07', '2020-11-08', 33),
+(33, 'Queso Riquishichichimo', 'queso artesanal', 0, 0, 18.5, 15.2, '', 'conservar-queso.jpg', 'conservar-queso.jpg', 'conservar-queso.jpg', 0.05, '2020-11-07', '2020-11-08', 35),
+(34, 'WHISKY JOHNNIE WALKER ETIQUETA ROJA X 750 ML', 'Caracteristicas\r\nPresentaciÃ³n	Botella\r\nAÃ±ejado	SÃ­\r\nComposiciÃ³n	Granos y malta\r\nDenominaciÃ³n/Variedad	Red Label\r\nVolumen neto	750ml\r\nTipo de tapa	Tapa rosca\r\nGraduaciÃ³n alcohÃ³lica	40Â°GL', 0, 0, 44.9, 38, '', 'wisky.jpg', 'etiqueta roja.jpg', 'etiqueta roja.jpg', 0, '', '', 36),
+(35, 'LECHE UHT GLORIA 1L CAJA', 'LECHE NIÃ‘OS\r\nTiene como principales ingredientes a la leche cruda y la leche descremada, estÃ¡ enriquecido con vitaminas A, C, D, E, del complejo B y cinc que cubren mÃ¡s del 15% de la recomendaciÃ³n diaria por cada raciÃ³n. El producto contiene DHA y tiene un toque de azÃºcar y no requiere endulzar; por cada taza de 200 ml. aporta 1.9g de azÃºcares aÃ±adidos.', 0, 0, 4.8, 4, '', 'X_gloria8173.png', 'leche.jpg', 'leche.jpg', 0, '', '', 37),
+(36, 'LECHE SEMIDESCREMADA SIN LACTOSA', 'LECHE SIN LACTOSA\r\nLa leche semidescremada UHT sin lactosa ha sido elaborada para aquellos que son intolerantes a la lactosa, por su naturaleza aporta proteÃ­nas de altas calidad, minerales como el calcio y fÃ³sforo. El producto esta fortificado con vitaminas A y D.', 0, 0, 4.8, 4, '', 'sin-lactosa-bolsa.jpg', 'sin-lactosa-bolsa.jpg', 'sin-lactosa-bolsa.jpg', 0, '', '', 38),
+(37, 'LECHE LIGHT 946ML BOLSA', 'Este producto estÃ¡ elaborado a base de leche descremada y leche entera de vaca ademÃ¡s esta fortificado con vitaminas A, C y D.', 0, 0, 4.8, 4, '', 'light-bolsa.jpg', 'light-bolsa.jpg', 'light-bolsa.jpg', 0, '', '', 39),
+(39, 'LECHE LIGHT UHT 1L CAJA', 'Este producto estÃ¡ elaborado a base de leche descremada y leche entera de vaca ademÃ¡s esta fortificado con vitaminas A, C y D.', 0, 0, 4.8, 4, '', 'light.jpg', 'light.jpg', 'light.jpg', 0, '', '', 41),
+(40, 'ELECTROLIGHT 475ml Six pack 6 UND', 'ELECTROLIGHT repone los electrolitos perdidos.', 0, 0, 28, 15, '', 'elecc.jpg', 'elect.jpg', 'electroliht.webp', 0.2, '2020-09-07', '2020-09-09', 42),
+(41, 'POLLO ENTERO FRESCO por Kg', 'Pollos fresco se pesa por kg', 0, 0, 9, 7, '', 'pollo.jpg', 'alimentacion.jpg', 'pollo.jpg', 0, '', '', 43),
+(42, 'Arena para Gatos KLINKAT 20 kg.', 'la arena para gatos klinkat le dara a tu gato el espacio que necesita.\r\nla marca es especialista en el cuidado de mascotas, nos trae una arena para gatos 100% natural y altamente absorbente, la cual le dara un espacio seguro y comodo a tu gato para que pueda descansar y hacer sus necesidades.', 0, 0, 69.9, 58.5, 'verde', 'arena-para-gato-klinkat-x-20-k-27989.jpg', '2.jpg', 'image3.webp', 0, '', '', 44),
+(46, 'SALCHICHA DE POLLO PACK 5UNID', 'Hecho exclusivo de pollo', 0, 0, 3, 2.5, '', 'salchicha.jpg', 'salchicha.jpg', 'salchicha.jpg', 0, '', '', 48),
+(47, 'Alcohol Gel Tender', 'Alcohol gel natural  AVAL 380 ML', 0, 0, 10.5, 8.5, 'blanco', 'gel.jpg', 'gel2.png', 'gel3.webp', 0, '', '', 49),
+(48, 'HOD DOG CERDO PACK 5UNID', 'Rico Hod Dog', 0, 0, 9.9, 8, '', 'hod dog1.webp', 'hod dog.webp', 'hod dog1.webp', 0, '', '', 50),
+(49, 'Tripack Colgate Triple Accion  COLGATE', 'Combo tripack colgate triple acciÃ³n \"Colgate\" pack 3Un', 0, 0, 11.5, 9.5, 'rojo', 'colg3.jpg', 'colg2.jpg', 'colg.jpg', 0, '', '', 51),
+(50, 'Acondicionador Brazilian Keratin Therapy', 'Acondicionador Brazilian Keratin Therapy ORGANIX Envase 385 Ml', 0, 0, 49.3, 35.8, 'marron', 'Acondicionador.jpg', 'Acondicionador2.jpg', 'Acondicionador3.jpg', 0, '', '', 52),
+(51, 'MÃ¡scara Rosa Francesa KAREOL', 'MÃ¡scara Rosa Francesa   KAREOL Pote 300 Gr', 0, 0, 30, 25, 'rosado', 'rosa.png', 'rosa2.jpg', 'rosa3.jpg', 0, '', '', 53),
+(52, 'ASADO DE TIRA por Kg', 'Cortes especiales para tu parrilla.', 0, 0, 21.99, 18, '', 'asado de tira.jpeg', 'asado de tira2.png', 'asado de tira.jpeg', 0, '', '', 54),
+(53, 'MÃ¡scara Rosa Francesa KAREOL', 'MÃ¡scara Rosa Francesa   KAREOL Pote 300 Gr', 0, 0, 30, 25, 'rosado', 'rosa.png', '', '', 0, '', '', 55),
+(54, 'TALLARIN-MOLITALIA 500Gr', 'Tallarines molitalia, exquisito para tu comida', 0, 0, 1.99, 0.8, '', 'pasta_larga.jpg', 'tallarin.webp', 'pasta_larga.jpg', 0, '', '', 56),
+(55, 'FRIJOL EL TRECE 500Gr', 'FrÃ©jol de la RegiÃ³n...', 0, 0, 5, 4, '', 'frijol.jpg', 'frijoles.jpg', 'frijol.jpg', 0, '', '', 57);
 
 -- --------------------------------------------------------
 
@@ -524,7 +577,12 @@ INSERT INTO `pago` (`id_pago`, `fecha_pago`, `saldo_p`, `metodo`, `monto_p`, `id
 (4, '2020-09-07 02:12:26', 5.35, 'EN EFECTIVO', NULL, 4),
 (5, '2020-09-07 02:17:54', 4.75, 'EN EFECTIVO', 0.6, 5),
 (6, '2020-09-07 02:48:06', 4.15, 'EN EFECTIVO', 0.6, 6),
-(22, '2020-09-07 06:40:51', 182.35, 'EN EFECTIVO', 21.8, 32);
+(22, '2020-09-07 06:40:51', 182.35, 'EN EFECTIVO', 21.8, 32),
+(23, '2020-09-07 16:37:21', 49.4, 'EN EFECTIVO', 0.6, 33),
+(24, '2020-09-07 15:16:05', 1136.85, 'EN EFECTIVO', 23.7, 34),
+(25, '2020-09-07 15:18:32', 1136.85, 'EN EFECTIVO', 10.9, 35),
+(26, '2020-09-07 15:54:34', 1125.9499999999998, 'EN EFECTIVO', 203.09, 36),
+(27, '2020-09-07 16:11:29', 922.8599999999998, 'EN EFECTIVO', 84.4, 37);
 
 -- --------------------------------------------------------
 
@@ -545,6 +603,7 @@ CREATE TABLE `perfil_admi` (
 ,`usuario` varchar(50)
 ,`clave` varchar(80)
 ,`titulo` varchar(50)
+,`cod_admin` varchar(10)
 );
 
 -- --------------------------------------------------------
@@ -698,7 +757,15 @@ INSERT INTO `persona` (`id_persona`, `nombres_p`, `apellidos_p`, `edad`, `sexo`,
 (13, 'Karen', 'molina', 25, 'Femenino', 'Av. Leon Velarde', 953624167, 461253, 95431672, '2020-08-16 17:53:31', 'molina@pacifico.com', '$2y$12$Q7Jg081dBHqDbW.39sRJresWn0sGtX0C5JNi52a/BWQIl.CjLkleK'),
 (14, 'Elver', 'Corahua', 30, 'Masculino', 'Jr. Los Robles', 945126357, 461253, 46127359, '2020-08-16 17:58:09', 'cor@pacifico.com', '$2y$12$82ferQ5tIkpj5qTqtnwK4exEk7OxAyXgL06dfux7D8zmo1p2g6NWO'),
 (15, 'Giuliana', 'sahuarico ochoa', 26, 'Femenino', '', 958613746, 956432, 49267681, '2020-08-17 08:23:58', 'emp@pacifico.com', '$2y$12$ivL6g.IcmxabLMDOYTj40uNtPay7CUlgoJxSFvrxfYdWCtWhG2UXC'),
-(16, 'Sandro', 'Martinez', 36, 'Masculino', 'Av. sdads', 53534554, 45544445, 5656565, '2020-08-19 16:46:52', 'asdssss@asd.com', '$2y$12$2AZgPzyWr10gX5XjEF771udhLoOARoNg03GwFntDr6n09FZH1EzPO');
+(16, 'Sandro', 'Martinez', 36, 'Masculino', 'Av. sdads', 53534554, 45544445, 5656565, '2020-08-19 16:46:52', 'asdssss@asd.com', '$2y$12$2AZgPzyWr10gX5XjEF771udhLoOARoNg03GwFntDr6n09FZH1EzPO'),
+(17, 'Enrique', 'Vela Velazques', 32, 'MASCULINO', 'jr. los robles', 987654321, 451263, 12347610, '2020-07-07 13:01:23', 'admin2@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
+(18, 'lisa 2', 'Forester ', 28, 'FEMENINO', 'Av. Ernesto rivero , Gonsales prada', 94625371, 415263, 74181818, '2020-07-07 13:01:23', 'admin5@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
+(19, 'Enrique', 'Vela Velazques', 32, 'MASCULINO', 'jr. los robles', 987654321, 451263, 12347610, '2020-07-07 13:01:23', 'admin4@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
+(20, 'lisa', 'Forester ', 28, 'FEMENINO', 'Av. Ernesto rivero , Gonsales prada', 94625371, 415263, 74181818, '2020-07-07 13:01:23', 'admin3@pacifico.com', '$2y$12$sY1KufZwUdztY/WxV4xPBeneyNaqrsV.FW.11wi2GWX6888.eR7aq'),
+(21, 'Yuri Yoshiro', 'Palomino', 21, 'Masculino', '17001', 982215955, 982215955, 74719466, '2020-09-07 14:53:00', 'christianyoshiro@gmail.com', '$2y$12$MXyX2G41gpZ4J5fxD29UteOHWq5mxrIqB1FC.sbjiDQwLvkmLvFvi'),
+(22, 'Yuri Yoshiro', 'Palomino', 22, 'Masculino', '17001', 982215955, 982215955, 74719466, '2020-09-07 14:58:42', 'christianyoshiro0@gmail.com', '$2y$12$qS42db.qlOMhMidRabgpN.bNBTHHUDnNjI9b3TKDjEzeletanXtPa'),
+(23, 'Adrew', 'paredes', 26, 'Masculino', 'Av. Matorrales', 95456216, 415263, 74558126, '2020-09-07 15:00:39', 'as@pacifico.com', '$2y$12$t5hOAIJ.53u7aCKhBkXDEuAttxgXHPVsstmPKQbS3JrCekQCUrsiO'),
+(24, 'pedro', 'morales estrada', 25, 'Masculino', 'Av. Gonzales prada', 745826319, 84653295, 45181818, '2020-09-07 16:11:16', 'pedro@pacifico.com', '$2y$12$JAUWkZuk18GqB8guEOBejehJbmDmwohekTe6Z/yBO0.4.aE9y9KCS');
 
 -- --------------------------------------------------------
 
@@ -721,13 +788,48 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id_producto`, `cod_producto`, `fecha_ingreso_p`, `cant_producto`, `estado_producto`, `estado_venta`, `id_cat_producto`) VALUES
-(5, 'CCP-A1', '7/7/2020 15:33:39', 3, 'EN STOCK', 'NO VIGENTE', 1),
+(5, 'CCP-A1', '7/7/2020 15:33:39', 3, 'EN STOCK', 'VIGENTE', 1),
 (6, 'APL-AS', '7/7/2020 15:33:39', 2, 'EN STOCK', 'VIGENTE', 3),
 (7, 'ZB-YG', '7/7/2020 15:33:39', 1, 'AGOTADO', 'VIGENTE', 2),
 (8, 'ZB-YL', '7/7/2020 15:33:39', 1, 'AGOTADO', 'NO VIGENTE', 2),
 (9, 'ZB-YNP', '26/8/2020 18:51:32', 1, 'EN STOCK', 'VIGENTE', 2),
 (10, 'ZB-YN', '26/8/2020 18:51:32', 1, 'EN STOCK', 'VIGENTE', 2),
-(11, 'LC-LG', '2020-09-06 15:32:47', 10, 'EN STOCK', 'NO VIGENTE', 4);
+(11, 'LC-LG', '2020-09-06 15:32:47', 10, 'EN STOCK', 'VIGENTE', 4),
+(15, 'ZB-VN', '2020-09-07 15:14:47', 20, 'EN STOCK', 'VIGENTE', 2),
+(18, 'CCP-FNC', '2020-09-07 15:03:28', 20, 'EN STOCK', 'VIGENTE', 1),
+(19, 'ZB-VN1', '2020-09-07 15:33:48', 15, 'EN STOCK', 'VIGENTE', 2),
+(20, 'CCP-SP', '2020-09-07 15:33:43', 10, 'EN STOCK', 'VIGENTE', 1),
+(21, 'ZB-FR', '2020-09-07 15:37:27', 80, 'EN STOCK', 'VIGENTE', 2),
+(23, 'ZB-GAS', '2020-09-07 16:01:52', 100, 'EN STOCK', 'VIGENTE', 2),
+(24, 'ZB-GAS1', '2020-09-07 16:13:35', 80, 'EN STOCK', 'VIGENTE', 2),
+(25, 'CCP-CC', '2020-09-07 15:33:43', 10, 'EN STOCK', 'VIGENTE', 1),
+(26, 'ZB-FR1', '2020-09-07 16:25:04', 50, 'EN STOCK', 'VIGENTE', 2),
+(27, 'CCP- PPP', '2020-09-07 16:34:59', 15, 'EN STOCK', 'VIGENTE', 1),
+(28, 'CCP- PPP', '2020-09-07 16:34:59', 15, 'EN STOCK', 'VIGENTE', 1),
+(29, 'ZB-FR2', '2020-09-07 16:37:27', 50, 'EN STOCK', 'VIGENTE', 2),
+(30, 'ZB-FR3', '2020-09-07 16:42:57', 70, 'EN STOCK', 'VIGENTE', 2),
+(31, 'CPP-DE', '2020-09-07 16:39:52', 15, 'EN STOCK', 'VIGENTE', 1),
+(32, 'ZB-WK', '2020-09-07 16:46:12', 50, 'EN STOCK', 'NO VIGENTE', 2),
+(33, 'CPP-P', '2020-09-07 16:46:30', 12, 'EN STOCK', 'VIGENTE', 1),
+(35, 'LC-Q', '2020-09-07 17:01:09', 12, 'EN STOCK', 'NO VIGENTE', 4),
+(36, 'ZB-WK1', '2020-09-07 17:02:03', 20, 'EN STOCK', 'VIGENTE', 2),
+(37, 'LC', '2020-09-07 17:11:58', 80, 'EN STOCK', 'VIGENTE', 4),
+(38, 'LC-GL', '2020-09-07 17:27:58', 100, 'EN STOCK', 'VIGENTE', 4),
+(39, 'LC-GL1', '2020-09-07 17:40:58', 200, 'EN STOCK', 'VIGENTE', 4),
+(41, 'LC-GL3', '2020-09-07 18:04:55', 10, 'EN STOCK', 'VIGENTE', 4),
+(42, 'ZB-EL', '2020-09-07 13:18:44', 38, 'EN STOCK', 'VIGENTE', 2),
+(43, 'CYE-CR', '2020-09-07 13:35:03', 10, 'EN STOCK', 'VIGENTE', 5),
+(44, 'A-G', '2020-09-07 13:45:58', 20, 'EN STOCK', 'VIGENTE', 6),
+(48, 'CYE-SP', '2020-09-07 14:03:31', 20, 'EN STOCK', 'VIGENTE', 5),
+(49, 'A-GT', '2020-09-07 14:16:07', 20, 'EN STOCK', 'VIGENTE', 9),
+(50, 'CYE-HD', '2020-09-07 14:29:41', 20, 'EN STOCK', 'VIGENTE', 5),
+(51, 'T-CTA', '2020-09-07 14:35:04', 30, 'EN STOCK', 'VIGENTE', 9),
+(52, 'A-BKT', '2020-09-07 14:47:02', 25, 'EN STOCK', 'VIGENTE', 9),
+(53, 'M-RF', '2020-09-07 14:55:34', 20, 'EN STOCK', 'VIGENTE', 9),
+(54, 'CYE-AT', '2020-09-07 14:55:51', 20, 'EN STOCK', 'VIGENTE', 5),
+(55, 'M-RF', '2020-09-07 14:55:34', 20, 'EN STOCK', 'NO VIGENTE', 9),
+(56, 'APL-PT', '2020-09-07 15:32:50', 30, 'EN STOCK', 'VIGENTE', 3),
+(57, 'APL-FR', '2020-09-07 15:39:05', 18, 'EN STOCK', 'VIGENTE', 3);
 
 -- --------------------------------------------------------
 
@@ -782,6 +884,36 @@ CREATE TABLE `productos_search` (
 ,`descripcion_producto` varchar(1000)
 ,`precio_producto` double
 ,`foto1` varchar(100)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `producto_almacen_`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `producto_almacen_` (
+`cod_producto` varchar(10)
+,`nombre_cat_producto` varchar(50)
+,`nombre_producto` varchar(100)
+,`foto1` varchar(100)
+,`estado_venta` varchar(10)
+,`cant_producto` int(11)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `producto_almacen_v`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `producto_almacen_v` (
+`cod_producto` varchar(10)
+,`nombre_cat_producto` varchar(50)
+,`nombre_producto` varchar(100)
+,`foto1` varchar(100)
+,`estado_venta` varchar(10)
+,`cant_producto` int(11)
 );
 
 -- --------------------------------------------------------
@@ -863,7 +995,27 @@ INSERT INTO `produc_compra_client` (`id_produc_comp`, `id_comp_c`, `id_producto`
 (12, 6, 7, 2, 5),
 (13, 6, 9, 3, 0.6),
 (14, 6, 10, 1, 5),
-(15, 6, 6, 1, 5);
+(15, 6, 6, 1, 5),
+(16, 33, 9, 1, 0.6),
+(17, 34, 18, 3, 7.9),
+(18, 34, 18, 1, 7.9),
+(19, 34, 5, 1, 3),
+(20, 35, 44, 1, 69.9),
+(21, 35, 55, 1, 30),
+(22, 35, 52, 1, 49.3),
+(23, 35, 51, 1, 11.5),
+(24, 35, 49, 1, 10.5),
+(25, 35, 54, 1, 21.99),
+(26, 35, 50, 1, 9.9),
+(27, 36, 18, 2, 7.9),
+(28, 36, 5, 2, 3),
+(29, 36, 20, 1, 14.5),
+(30, 36, 25, 1, 14.5),
+(31, 36, 7, 1, 5),
+(32, 36, 9, 1, 0.6),
+(33, 36, 10, 1, 5),
+(34, 36, 15, 1, 18),
+(35, 36, 6, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -929,7 +1081,8 @@ INSERT INTO `recarga` (`id_recarga`, `monto_recarga`, `boucher`, `estado_recarga
 (2, 20, 'IMG-RECARGA-C3.JPG', 'COMPLETADO', '8/7/2020 13:13:12', 3),
 (3, 30, 'IMG-RECARGA-C2.JPG', 'PROCESO', '8/7/2020 7:13:12', 2),
 (4, 15, 'giphy.gif', 'COMPLETADO', '2020-09-06 20:29:01', 2),
-(5, 200, '678927-MLM31767026195_082019-O.png', 'COMPLETADO', '2020-09-07 05:56:10', 2);
+(5, 200, '678927-MLM31767026195_082019-O.png', 'COMPLETADO', '2020-09-07 05:56:10', 2),
+(6, 1000, 'carro.png', 'COMPLETADO', '2020-09-07 15:11:11', 2);
 
 -- --------------------------------------------------------
 
@@ -1064,7 +1217,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `perfil_admi`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `perfil_admi`  AS  select `persona`.`nombres_p` AS `nombres_p`,`persona`.`apellidos_p` AS `apellidos_p`,`persona`.`edad` AS `edad`,`persona`.`sexo` AS `sexo`,`persona`.`direccion_p` AS `direccion_p`,`persona`.`nro_cel` AS `nro_cel`,`persona`.`nro_tel` AS `nro_tel`,`persona`.`dni` AS `dni`,`persona`.`fecha_r` AS `fecha_r`,`persona`.`usuario` AS `usuario`,`persona`.`clave` AS `clave`,`administrador`.`titulo` AS `titulo` from (`persona` join `administrador`) where `administrador`.`id_persona` = `persona`.`id_persona` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `perfil_admi`  AS  select `persona`.`nombres_p` AS `nombres_p`,`persona`.`apellidos_p` AS `apellidos_p`,`persona`.`edad` AS `edad`,`persona`.`sexo` AS `sexo`,`persona`.`direccion_p` AS `direccion_p`,`persona`.`nro_cel` AS `nro_cel`,`persona`.`nro_tel` AS `nro_tel`,`persona`.`dni` AS `dni`,`persona`.`fecha_r` AS `fecha_r`,`persona`.`usuario` AS `usuario`,`persona`.`clave` AS `clave`,`administrador`.`titulo` AS `titulo`,`administrador`.`cod_admin` AS `cod_admin` from (`persona` join `administrador`) where `administrador`.`id_persona` = `persona`.`id_persona` ;
 
 -- --------------------------------------------------------
 
@@ -1128,6 +1281,24 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `productos_search`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `productos_search`  AS  select `cat_producto`.`cod_categoria` AS `cod_categoria`,`cat_producto`.`nombre_cat_producto` AS `nombre_cat_producto`,`producto`.`cod_producto` AS `cod_producto`,`producto`.`estado_producto` AS `estado_producto`,`producto`.`estado_venta` AS `estado_venta`,`det_producto`.`nombre_producto` AS `nombre_producto`,`det_producto`.`descripcion_producto` AS `descripcion_producto`,`det_producto`.`precio_producto` AS `precio_producto`,`det_producto`.`foto1` AS `foto1` from ((`cat_producto` join `producto`) join `det_producto`) where `producto`.`id_cat_producto` = `cat_producto`.`id_cat_producto` and `det_producto`.`id_producto` = `producto`.`id_producto` and `producto`.`estado_venta` = 'VIGENTE' order by `cat_producto`.`cod_categoria` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `producto_almacen_`
+--
+DROP TABLE IF EXISTS `producto_almacen_`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `producto_almacen_`  AS  select `producto`.`cod_producto` AS `cod_producto`,`cat_producto`.`nombre_cat_producto` AS `nombre_cat_producto`,`det_producto`.`nombre_producto` AS `nombre_producto`,`det_producto`.`foto1` AS `foto1`,`producto`.`estado_venta` AS `estado_venta`,`producto`.`cant_producto` AS `cant_producto` from ((`cat_producto` join `producto`) join `det_producto`) where `producto`.`id_cat_producto` = `cat_producto`.`id_cat_producto` and `det_producto`.`id_producto` = `producto`.`id_producto` and `producto`.`estado_venta` = 'NO VIGENTE' ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `producto_almacen_v`
+--
+DROP TABLE IF EXISTS `producto_almacen_v`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `producto_almacen_v`  AS  select `producto`.`cod_producto` AS `cod_producto`,`cat_producto`.`nombre_cat_producto` AS `nombre_cat_producto`,`det_producto`.`nombre_producto` AS `nombre_producto`,`det_producto`.`foto1` AS `foto1`,`producto`.`estado_venta` AS `estado_venta`,`producto`.`cant_producto` AS `cant_producto` from ((`cat_producto` join `producto`) join `det_producto`) where `producto`.`id_cat_producto` = `cat_producto`.`id_cat_producto` and `det_producto`.`id_producto` = `producto`.`id_producto` and `producto`.`estado_venta` = 'VIGENTE' ;
 
 -- --------------------------------------------------------
 
@@ -1315,7 +1486,7 @@ ALTER TABLE `vehiculo`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `id_admi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_admi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `administrativo`
@@ -1333,7 +1504,7 @@ ALTER TABLE `almacen`
 -- AUTO_INCREMENT de la tabla `cat_producto`
 --
 ALTER TABLE `cat_producto`
-  MODIFY `id_cat_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_cat_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_trabajador`
@@ -1345,7 +1516,7 @@ ALTER TABLE `cat_trabajador`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `compras_almacen`
@@ -1357,19 +1528,19 @@ ALTER TABLE `compras_almacen`
 -- AUTO_INCREMENT de la tabla `compras_cliente`
 --
 ALTER TABLE `compras_cliente`
-  MODIFY `id_comp_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_comp_c` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `dat_cliente`
 --
 ALTER TABLE `dat_cliente`
-  MODIFY `id_dat_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_dat_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `det_producto`
 --
 ALTER TABLE `det_producto`
-  MODIFY `id_det_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_det_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `envio`
@@ -1381,19 +1552,19 @@ ALTER TABLE `envio`
 -- AUTO_INCREMENT de la tabla `pago`
 --
 ALTER TABLE `pago`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT de la tabla `produc_compra_almacen`
@@ -1405,7 +1576,7 @@ ALTER TABLE `produc_compra_almacen`
 -- AUTO_INCREMENT de la tabla `produc_compra_client`
 --
 ALTER TABLE `produc_compra_client`
-  MODIFY `id_produc_comp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_produc_comp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
@@ -1417,7 +1588,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `recarga`
 --
 ALTER TABLE `recarga`
-  MODIFY `id_recarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_recarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `repartidor`
