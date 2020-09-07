@@ -6,6 +6,58 @@
     }
 
     class productoController extends productoModel{
+
+        public function estado_prod_v(){
+            $codigo_p = $_POST['codigo_cambiar'];
+
+            $respuesta = mainModel::consulta_simple("update producto set estado_venta = 'NO VIGENTE' where cod_producto = '".$codigo_p."';");
+
+            if($respuesta->rowCount()>0){
+                $alerta = [
+                    "Alerta" => "simple",
+                    "titulo" => "Exito!",
+                    "texto" => "Se guardaron los cambios exitosamente se le recomienda actualizar la pagina",
+                    "tipo" => "success!",
+                    "clase" => "success"
+                ];
+            }else{
+                $alerta = [
+                    "Alerta" => "simple",
+                    "titulo" => "Problemas del sistema!",
+                    "texto" => "No se pudo cambiar estado",
+                    "tipo" => "Error!",
+                    "clase" => "danger"
+                ];
+            }
+
+            return mainModel::alerts($alerta);
+        }
+
+        public function estado_prod(){
+            $codigo_p = $_POST['codigo_e'];
+
+            $respuesta = mainModel::consulta_simple("update producto set estado_venta = 'VIGENTE' where cod_producto = '".$codigo_p."';");
+
+            if($respuesta->rowCount()>0){
+                $alerta = [
+                    "Alerta" => "simple",
+                    "titulo" => "Exito!",
+                    "texto" => "Se guardaron los cambios exitosamente se le recomienda actualizar la pagina",
+                    "tipo" => "success!",
+                    "clase" => "success"
+                ];
+            }else{
+                $alerta = [
+                    "Alerta" => "simple",
+                    "titulo" => "Problemas del sistema!",
+                    "texto" => "No se pudo cambiar estado",
+                    "tipo" => "Error!",
+                    "clase" => "danger"
+                ];
+            }
+
+            return mainModel::alerts($alerta);
+        }
         public function Reg_producto_Controller(){
             $Cod_cat = mainModel::clear_string($_POST['cod_categoria']);
             $new_cat = mainModel::clear_string($_POST['new_cod_cat']);

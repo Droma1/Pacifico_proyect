@@ -17,7 +17,7 @@ $contador = 0;
 		?>
 	  <div class="col mb-4">
 	    <div class="card h-100  bg-danger text-white rounded-0">
-	      <img src="<?php echo SERVERURL; ?>/View/img/pd2.jpg" class="card-img rounded-0" alt="...">
+	      <img src="<?php echo SERVERURL; ?>View/imgp/<?php echo $promo_p[1];?>" class="card-img rounded-0" style="max-height:200px;" alt="...">
 		  
 	      <div class="card-img-overlay rounded-0" >
 			

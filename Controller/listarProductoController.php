@@ -5,6 +5,15 @@
         require_once "./Config/main.php";
     }
     class productoController_l extends mainModel{
+
+        public function lista_venta(){
+            $sql = mainModel::consulta_simple("select * from producto_almacen_v;");
+            return $sql;
+        }
+        public function lista_almacen(){
+            $sql = mainModel::consulta_simple("select * from producto_almacen_;");
+            return $sql;
+        }
         public function listar_categoria(){
             $main = mainModel::consulta_simple("select nombre_cat_producto,cod_categoria from cat_producto");
             

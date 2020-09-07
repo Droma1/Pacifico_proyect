@@ -200,7 +200,7 @@ $(document).ready(function(){
                                                                                  ?>
                                                                                 <tr>
                                                                                     <td><?php echo $p[4]; ?></td>
-                                                                                    <td><?php echo $p[5]; ?></td>
+                                                                                    <td><img src="<?php echo SERVERURL; ?>View/imgp/<?php echo $p[5]; ?>" height=70; alt=""></td>
                                                                                     <td><?php echo $p[2]; ?></td>
                                                                                     <td><?php echo $p[3]; ?></td>
                                                                                 </tr>

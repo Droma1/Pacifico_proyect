@@ -21,7 +21,7 @@
             <div class="mb-1 rounded-0" >
                 <div class="row no-gutters">
                     <div class="col-md-4">
-                        <img src="<?php echo SERVERURL; ?>/View/img/pd2.jpg" class="card-img" alt="...">
+                        <img src="<?php echo SERVERURL; ?>/View/imgp/<?php echo $resultados_search[8]; ?>" style="max-height: 300px;" class="card-img" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

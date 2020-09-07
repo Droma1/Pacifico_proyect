@@ -80,7 +80,7 @@
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="check">
                                     <label class="form-check-label form-text text-muted" for="check" id="check_text">Acepto los 
-                                        <a href="terminos">Terminos y condiciones</a> y las <a href="politicas">Politicas de Provacidad</a> de Pacífico supermercados
+                                        <a href="terminos">Terminos y condiciones</a> y las <a href="politicas">Politicas de Privacidad</a> de Pacífico supermercados
                                     </label>
                                 </div>
                             </div>

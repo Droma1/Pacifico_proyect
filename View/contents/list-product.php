@@ -23,7 +23,7 @@
 		<?php ;while(($producto = $l_producto->fetch()) && $contador<=3){ $contador++;?>
 		<div class="col mb-4">
 			<div class="card h-100 rounded-0">
-			<img src="<?php echo SERVERURL; ?>/View/img/pd2.jpg" class="card-img-top" alt="...">
+			<img src="<?php echo SERVERURL; ?>View/imgp/<?php echo $producto[8]; ?>" class="card-img-top" alt="...">
 			<div class="card-body">
 					<form action="producto" method="post">
 						<button class="text-title title_promotion" name="producto" value="<?php echo $producto[2];?>">

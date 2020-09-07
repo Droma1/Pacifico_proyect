@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-md-6 col-lg-6 col-xl-6">
 			<div class="img-container col-12">
-				<img src="<?php echo SERVERURL; ?>View/img/pd2.jpg" alt="" style="width: 100%;">
+				<img src="<?php echo SERVERURL; ?>View/imgp/<?php echo $producto[11];?>" alt="" style="width: 100%;">
 			</div>
 			<div class="img-galery">
 				<div class="container">
@@ -67,7 +67,7 @@
 					<div class="row">
 						<div class="col-md-6 col-lg-6 col-xl-6">
 							<div class="img-container col-12">
-								<img src="<?php echo SERVERURL; ?>View/img/pd2.jpg" alt="" style="width: 100%;">
+								<img src="<?php echo SERVERURL; ?>View/imgp/<?php echo $producto[11];?>" alt="" style="width: 100%;">
 							</div>
 							<div class="img-galery">
 								<div class="container">
@@ -85,7 +85,7 @@
 						<div class="col-md-6 col-lg-6 col-xl-6">
 							<h3><?php echo $producto[5];?></h3>
 							<form action="compra" method="post">
-								<input type="text" readonly name="img" style="display:none;" value="<?php echo SERVERURL; ?>View/img/pd2.jpg">
+								<input type="text" readonly name="img" style="display:none;" value="<?php echo SERVERURL; ?>View/imgp/<?php echo $producto[11];?>">
 								<input type="text" readonly name="cod" style="display:none;" value="<?php echo $producto[2]; ?>">
 								<input type="text" readonly name="precio" style="display:none;" value="<?php $tiempo =  strtotime($producto[16])-strtotime(date('Y-m-d H:i:s')); if($producto[14]>0 && $tiempo > 0){echo ($producto[9]-(($producto[9]/100)*($producto[14]*100)));}else{echo $producto[9];}?>">
 								<input type="text" readonly name="name" style="display:none;" value="<?php echo $producto[5];?>">
