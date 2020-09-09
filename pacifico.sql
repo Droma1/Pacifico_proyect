@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-09-2020 a las 23:14:41
+-- Tiempo de generación: 09-09-2020 a las 23:23:26
 -- Versión del servidor: 10.3.16-MariaDB
 -- Versión de PHP: 7.3.6
 
@@ -44,6 +44,18 @@ select LAST_INSERT_ID() INTO @id_p;
 insert into pago(fecha_pago,saldo_p,metodo,monto_p,id_comp_c)
 		values(fecha,saldo_a,'EN EFECTIVO',monto_c,@id_p);
 update cliente set saldo = (saldo_a - monto_c) where cod_cliente = codigo;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `process_recarga` (IN `codigo` VARCHAR(20), IN `monto` DOUBLE, IN `id_rec` INT)  BEGIN
+
+set @id_c = 0;
+set @mont = 0;
+
+select @id_c := id_cliente, @mont := saldo from cliente where cod_cliente = codigo;
+
+update cliente set saldo = (@mont + monto) where cod_cliente = codigo;
+update recarga set estado_recarga = 'COMPLETADO' where id_cliente = @id_c and id_recarga = id_rec;
 
 END$$
 
@@ -290,7 +302,7 @@ CREATE TABLE `cliente` (
 
 INSERT INTO `cliente` (`id_cliente`, `cod_cliente`, `saldo`, `cat_cliente`, `estado_cliente`, `id_persona`) VALUES
 (1, 'CL1', 49.4, 'CL1-A', 'HABILITADO', 1),
-(2, 'CL2', 838.4599999999998, 'CL1-B', 'HABILITADO', 2),
+(2, 'CL2', 500, 'CL1-B', 'HABILITADO', 2),
 (3, 'CL3', 20, 'CL1-C', 'HABILITADO', 3),
 (4, 'CL8', 0, NULL, 'HABILITADO', 8),
 (5, 'CL9', 0, NULL, 'HABILITADO', 9),
@@ -303,7 +315,8 @@ INSERT INTO `cliente` (`id_cliente`, `cod_cliente`, `saldo`, `cat_cliente`, `est
 (12, 'CL21', 0, NULL, 'HABILITADO', 21),
 (13, 'CL22', 0, NULL, 'HABILITADO', 22),
 (14, 'CL23', 0, NULL, 'HABILITADO', 23),
-(15, 'CL24', 0, NULL, 'HABILITADO', 24);
+(15, 'CL24', 0, NULL, 'HABILITADO', 24),
+(16, 'CL25', 0, NULL, 'HABILITADO', 25);
 
 -- --------------------------------------------------------
 
@@ -420,7 +433,8 @@ INSERT INTO `dat_cliente` (`id_dat_cliente`, `distrito_c`, `provincia_c`, `depar
 (1, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 1),
 (2, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 2),
 (3, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 3),
-(4, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 15);
+(4, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 15),
+(5, 'TAMBOPATA', 'TAMBOPATA', 'MADRE DE DIOS', 16);
 
 -- --------------------------------------------------------
 
@@ -516,6 +530,28 @@ CREATE TABLE `envio` (
 
 INSERT INTO `envio` (`id_envio`, `id_repartidor`, `id_comp_c`, `estado_alm`, `fecha_envio`, `fecha_llegada`, `firma_c`) VALUES
 (1, 1, 2, 'ENVIADO', '7/7/2020 20:35:00', '7/7/2020 20:55:00', 'NPMCB2BLL');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `lista_cliente_r`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `lista_cliente_r` (
+`cod_cliente` varchar(20)
+,`nombres_p` varchar(50)
+,`apellidos_p` varchar(50)
+,`edad` int(2)
+,`direccion_p` varchar(100)
+,`usuario` varchar(50)
+,`saldo` double
+,`estado_cliente` varchar(20)
+,`monto_recarga` double
+,`boucher` varchar(50)
+,`estado_recarga` varchar(20)
+,`fecha_recarga` varchar(20)
+,`id_recarga` int(11)
+);
 
 -- --------------------------------------------------------
 
@@ -765,7 +801,8 @@ INSERT INTO `persona` (`id_persona`, `nombres_p`, `apellidos_p`, `edad`, `sexo`,
 (21, 'Yuri Yoshiro', 'Palomino', 21, 'Masculino', '17001', 982215955, 982215955, 74719466, '2020-09-07 14:53:00', 'christianyoshiro@gmail.com', '$2y$12$MXyX2G41gpZ4J5fxD29UteOHWq5mxrIqB1FC.sbjiDQwLvkmLvFvi'),
 (22, 'Yuri Yoshiro', 'Palomino', 22, 'Masculino', '17001', 982215955, 982215955, 74719466, '2020-09-07 14:58:42', 'christianyoshiro0@gmail.com', '$2y$12$qS42db.qlOMhMidRabgpN.bNBTHHUDnNjI9b3TKDjEzeletanXtPa'),
 (23, 'Adrew', 'paredes', 26, 'Masculino', 'Av. Matorrales', 95456216, 415263, 74558126, '2020-09-07 15:00:39', 'as@pacifico.com', '$2y$12$t5hOAIJ.53u7aCKhBkXDEuAttxgXHPVsstmPKQbS3JrCekQCUrsiO'),
-(24, 'pedro', 'morales estrada', 25, 'Masculino', 'Av. Gonzales prada', 745826319, 84653295, 45181818, '2020-09-07 16:11:16', 'pedro@pacifico.com', '$2y$12$JAUWkZuk18GqB8guEOBejehJbmDmwohekTe6Z/yBO0.4.aE9y9KCS');
+(24, 'pedro', 'morales estrada', 25, 'Masculino', 'Av. Gonzales prada', 745826319, 84653295, 45181818, '2020-09-07 16:11:16', 'pedro@pacifico.com', '$2y$12$JAUWkZuk18GqB8guEOBejehJbmDmwohekTe6Z/yBO0.4.aE9y9KCS'),
+(25, 'ROSSY', 'Bermedo Altamirano', 25, 'Femenino', 'JR. GONZALAS PRADA 204', 998456123, 82578691, 71782536, '2020-09-07 16:28:06', 'Rossy@pacifico.com', '$2y$12$Eg5eW7JqeR.NEMsVEcUhPebZbyXTIg1bOuG1VoeSh//BuqTC9Rlnm');
 
 -- --------------------------------------------------------
 
@@ -1079,10 +1116,13 @@ CREATE TABLE `recarga` (
 INSERT INTO `recarga` (`id_recarga`, `monto_recarga`, `boucher`, `estado_recarga`, `fecha_recarga`, `id_cliente`) VALUES
 (1, 50, 'IMG-RECARGA-C1.JPG', 'COMPLETADO', '7/7/2020 20:12:56', 1),
 (2, 20, 'IMG-RECARGA-C3.JPG', 'COMPLETADO', '8/7/2020 13:13:12', 3),
-(3, 30, 'IMG-RECARGA-C2.JPG', 'PROCESO', '8/7/2020 7:13:12', 2),
+(3, 30, 'IMG-RECARGA-C2.JPG', 'COMPLETADO', '8/7/2020 7:13:12', 2),
 (4, 15, 'giphy.gif', 'COMPLETADO', '2020-09-06 20:29:01', 2),
 (5, 200, '678927-MLM31767026195_082019-O.png', 'COMPLETADO', '2020-09-07 05:56:10', 2),
-(6, 1000, 'carro.png', 'COMPLETADO', '2020-09-07 15:11:11', 2);
+(6, 1000, 'carro.png', 'COMPLETADO', '2020-09-07 15:11:11', 2),
+(7, 100, 'voucher_banco.png', 'COMPLETADO', '2020-09-07 16:28:45', 16),
+(8, 500, '678927-MLM31767026195_082019-O.jpg', 'COMPLETADO', '2020-09-09 16:10:50', 2),
+(9, 20, 'loading.gif', 'PROCESO', '2020-09-09 16:18:38', 1);
 
 -- --------------------------------------------------------
 
@@ -1191,6 +1231,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `contador_recargas`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contador_recargas`  AS  select count(0) AS `recargas`,`cliente`.`cod_cliente` AS `cod_cliente` from (`cliente` join `recarga`) where `recarga`.`id_cliente` = `cliente`.`id_cliente` group by `cliente`.`cod_cliente` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `lista_cliente_r`
+--
+DROP TABLE IF EXISTS `lista_cliente_r`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `lista_cliente_r`  AS  select `cliente`.`cod_cliente` AS `cod_cliente`,`persona`.`nombres_p` AS `nombres_p`,`persona`.`apellidos_p` AS `apellidos_p`,`persona`.`edad` AS `edad`,`persona`.`direccion_p` AS `direccion_p`,`persona`.`usuario` AS `usuario`,`cliente`.`saldo` AS `saldo`,`cliente`.`estado_cliente` AS `estado_cliente`,`recarga`.`monto_recarga` AS `monto_recarga`,`recarga`.`boucher` AS `boucher`,`recarga`.`estado_recarga` AS `estado_recarga`,`recarga`.`fecha_recarga` AS `fecha_recarga`,`recarga`.`id_recarga` AS `id_recarga` from ((`persona` join `cliente`) join `recarga`) where `cliente`.`id_persona` = `persona`.`id_persona` and `recarga`.`id_cliente` = `cliente`.`id_cliente` order by `recarga`.`estado_recarga` desc ;
 
 -- --------------------------------------------------------
 
@@ -1516,7 +1565,7 @@ ALTER TABLE `cat_trabajador`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `compras_almacen`
@@ -1534,7 +1583,7 @@ ALTER TABLE `compras_cliente`
 -- AUTO_INCREMENT de la tabla `dat_cliente`
 --
 ALTER TABLE `dat_cliente`
-  MODIFY `id_dat_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_dat_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `det_producto`
@@ -1558,7 +1607,7 @@ ALTER TABLE `pago`
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
@@ -1588,7 +1637,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `recarga`
 --
 ALTER TABLE `recarga`
-  MODIFY `id_recarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_recarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `repartidor`
