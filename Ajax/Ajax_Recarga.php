@@ -7,6 +7,11 @@
         
             echo $insAdmin->recarga_cliente();
 
+    }elseif(isset($_POST['codigo_cliente_recarga'])){
+        require_once "../Controller/admin-viewController.php";
+        $insAdmin = new AdminViewController();
+        
+            echo $insAdmin->procesar_recarga();
     }else{
         session_start();
         session_destroy();

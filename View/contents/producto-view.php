@@ -45,7 +45,7 @@
 				<br>
 				<label for="" style="display:inline-flex;"> <p style="margin-top:5px;margin-right:15px;">cantidad:  </p>
 					<select name="cantidad" class="form-control" id="">
-					<?php for($cont = 1; $cont <= $producto[3]; $cont++){echo "< option value='".$cont."'>".$cont."</option>";} ?>
+					<?php for($cont = 1; $cont <= $producto[3]; $cont++){?><option value="<?php echo $cont; ?>"><?php echo $cont; ?></option> <?php } ?>
 					</select>
 					<!--<div class="form-group">
 					<p>cantidad a comprar:</p>
@@ -102,7 +102,7 @@
 								<br>
 								<label for="" style="display:inline-flex;"> <p style="margin-top:5px;margin-right:15px;">cantidad:  </p>
 									<select name="cantidad" class="form-control" id="">
-									<?php for($cont = 1; $cont <= $producto[3]; $cont++){echo "<option value='".$cont."'>".$cont."</option>";} ?>
+									<?php for($cont = 1; $cont <= $producto[3]; $cont++){?><option value="<?php echo $cont; ?>"><?php echo $cont; ?></option> <?php } ?>
 									</select>
 									<!--<div class="form-group">
 									<p>cantidad a comprar:</p>
